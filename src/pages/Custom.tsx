@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import {
   EMAIL_ADDRESS,
@@ -9,6 +9,8 @@ import {
   mailtoLink,
 } from "@/lib/studio";
 import { useSeo } from "@/lib/seo";
+import { lenis } from "@/components/studio/Motion";
+import { prefersReduced } from "@/lib/store";
 
 const SHAPE_CARDS = [
   {
@@ -107,12 +109,25 @@ export default function Custom() {
   const [refUrl, setRefUrl] = useState("");
   const [name, setName] = useState("");
   const [copied, setCopied] = useState(false);
+  const formTop = useRef<HTMLElement>(null);
+  const skipFirstScroll = useRef(true);
 
   useEffect(() => {
     if (baseProduct) {
       setIdea(`Custom version of ${baseProduct.name}`);
     }
   }, [baseProduct]);
+
+  useEffect(() => {
+    if (skipFirstScroll.current) {
+      skipFirstScroll.current = false;
+      return;
+    }
+    const el = formTop.current;
+    if (!el) return;
+    if (lenis) lenis.scrollTo(el, { offset: 0, immediate: prefersReduced(), duration: 0.7 });
+    else el.scrollIntoView({ behavior: prefersReduced() ? "auto" : "smooth", block: "start" });
+  }, [step]);
 
   const specLines = [
     `Hi RugCraft Studio,`,
@@ -145,7 +160,7 @@ export default function Custom() {
   };
 
   return (
-    <section className="mx-auto max-w-[92rem] px-6 pb-20 pt-28 md:px-12 md:pt-32">
+    <section ref={formTop} id="commission-top" className="mx-auto max-w-[92rem] px-6 pb-20 pt-28 md:px-12 md:pt-32">
       {/* Top Header & Step Progress Bar */}
       <div className="border-b border-border pb-8">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
