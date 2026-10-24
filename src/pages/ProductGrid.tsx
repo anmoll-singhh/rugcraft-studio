@@ -1,13 +1,14 @@
 import { ProductCard } from "@/components/studio/ProductCard";
+import { Reveal } from "@/components/studio/Reveal";
 import type { Product } from "@/lib/studio";
 
 export function ProductGrid({ items }: { items: Product[] }) {
   return (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-14 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((p, i) => (
-        <div key={p.slug} className="fade-in" style={{ animationDelay: `${Math.min(i, 7) * 60}ms`, animationFillMode: "both" }}>
-          <ProductCard p={p} index={i} />
-        </div>
+        <Reveal key={p.slug} delay={i * 40}>
+          <ProductCard p={p} />
+        </Reveal>
       ))}
     </div>
   );

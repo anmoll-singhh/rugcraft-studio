@@ -10,12 +10,13 @@ import Home from "@/pages/Home";
 import Shop from "@/pages/Shop";
 import ProductPage from "@/pages/Product";
 import Collection from "@/pages/Collection";
+import Custom from "@/pages/Custom";
+import Process from "@/pages/Process";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Wishlist from "@/pages/Wishlist";
 import NotFound from "@/pages/NotFound";
 
-/** Curtain wipe: the tufting-orange panel covers, the route swaps underneath, then it lifts. */
 function useCurtain() {
   const location = useLocation();
   const [shown, setShown] = useState(location);
@@ -27,9 +28,9 @@ function useCurtain() {
     const el = curtain.current!;
     const tl = gsap.timeline();
     tl.set(el, { display: "flex", clipPath: "inset(100% 0% 0% 0%)" })
-      .to(el, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "power4.inOut" })
+      .to(el, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power4.inOut" })
       .call(() => setShown(location))
-      .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.65, ease: "power4.inOut", delay: 0.08 })
+      .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.55, ease: "power4.inOut", delay: 0.05 })
       .set(el, { display: "none" });
     return () => { tl.progress(1); };
   }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -51,7 +52,7 @@ function ScrollManager({ pathname, hash }: { pathname: string; hash: string }) {
 }
 
 export default function App() {
-  const [ready, setReady] = useState(false);
+  const [, setReady] = useState(false);
   const onDone = useCallback(() => setReady(true), []);
   const { shown, curtain } = useCurtain();
   useEffect(() => { const imgs = document.images; const f = () => ScrollTrigger.refresh(); for (const i of imgs) if (!i.complete) i.addEventListener("load", f, { once: true }); }, [shown.pathname]);
@@ -65,11 +66,15 @@ export default function App() {
       <ScrollManager pathname={shown.pathname} hash={shown.hash} />
       <main id="main" key={shown.pathname}>
         <Routes location={shown}>
-          <Route path="/" element={<Home ready={ready} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/works" element={<Shop />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/gallery" element={<Shop />} />
-          <Route path="/product/:slug" element={<ProductPage />} />
+          <Route path="/custom" element={<Custom />} />
+          <Route path="/process" element={<Process />} />
           <Route path="/rug/:slug" element={<ProductPage />} />
+          <Route path="/works/:slug" element={<ProductPage />} />
+          <Route path="/product/:slug" element={<ProductPage />} />
           <Route path="/collections/:category" element={<Collection />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
@@ -81,7 +86,7 @@ export default function App() {
       <FloatingWhatsApp />
       <ThemeSwitcher />
       <div ref={curtain} aria-hidden className="pointer-events-none fixed inset-0 z-[80] hidden items-center justify-center bg-primary">
-        <span className="font-display text-6xl font-black tracking-tight text-primary-foreground">RUGCRAFT</span>
+        <span className="font-display text-5xl font-bold tracking-tight text-primary-foreground">RugCraft Studio</span>
       </div>
     </>
   );

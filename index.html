@@ -4,29 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RugCraft Studio — Custom Handmade Tufted Rugs · Georgia, USA</title>
-    <meta name="description" content="Your Team. Your Rug. One-of-a-kind hand-tufted sports, gaming & custom logo rugs made to order in Georgia, USA. Cut-pile precision, razor-carved 3D edges, ships nationwide." />
+    <meta name="description" content="One-of-a-kind hand-tufted sports, gaming & custom logo rugs made to order in Georgia, USA. Cut-pile precision, razor-carved 3D edges, ships nationwide." />
     <meta name="author" content="RugCraft Studio" />
     <meta name="theme-color" content="#120c08" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="RugCraft Studio" />
-    <meta property="og:title" content="RugCraft Studio — Your Team. Your Rug. Custom Handmade Tufted Rugs" />
-    <meta property="og:description" content="One-of-a-kind tufted rugs for game-day superfans. Designed with you, made by hand in Georgia, USA." />
+    <meta property="og:title" content="RugCraft Studio — Bespoke Hand-Tufted Rugs · Georgia, USA" />
+    <meta property="og:description" content="One-of-a-kind tufted rugs for game-day superfans and collectors. Designed with you, made by hand in Georgia, USA." />
     <meta property="og:image" content="https://rugcraft-studio.vercel.app/og.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@RugCraftStudio" />
-    <meta name="twitter:title" content="RugCraft Studio — Your Team. Your Rug." />
+    <meta name="twitter:title" content="RugCraft Studio — Bespoke Hand-Tufted Rugs" />
     <meta name="twitter:description" content="Hand-tufted in Georgia, USA. Sports · Gaming · Custom Logos · Ships Nationwide." />
     <meta name="twitter:image" content="https://rugcraft-studio.vercel.app/og.jpg" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
     <script>
-      try{var t={espresso:["#120c08","#1c140e","#f5ead8","#b5a48e","#f08a3c","#2e2219"],stadium:["#0c1424","#142038","#f5ead8","#94a3b8","#f08a3c","#233554"],canvas:["#f5ead8","#ebe0cd","#18100a","#6b5a4c","#d96318","#d8c8b0"],gridiron:["#0b1d15","#122b20","#f4efe4","#9bb3a6","#f59e0b","#1f4233"],flock:["#130d1e","#1d152e","#f3eef8","#a69bb8","#f59e0b","#31244c"]}[localStorage.getItem("rugcraft-theme")];if(t){var s=document.documentElement.style;["--background","--card","--foreground","--muted-foreground","--primary","--border"].forEach(function(k,i){s.setProperty(k,t[i])});s.setProperty("--secondary",t[1]);s.setProperty("--muted",t[1]);s.setProperty("--card-foreground",t[2]);s.setProperty("--primary-foreground",t[0]);s.setProperty("--ring",t[4])}}catch(e){}
+      try{
+        var s=document.documentElement.style;
+        var t={espresso:["#120c08","#1b130e","#f5ead8","#b5a48e","#f08a3c","#2e2219"],stadium:["#0c1424","#142038","#f5ead8","#94a3b8","#f08a3c","#233554"],canvas:["#f5ead8","#ebe0cd","#18100a","#6b5a4c","#d96318","#d8c8b0"],gridiron:["#0b1d15","#122b20","#f4efe4","#9bb3a6","#f59e0b","#1f4233"],flock:["#130d1e","#1d152e","#f3eef8","#a69bb8","#f59e0b","#31244c"]}[localStorage.getItem("rugcraft-theme")];
+        if(t){["--background","--card","--foreground","--muted-foreground","--primary","--border"].forEach(function(k,i){s.setProperty(k,t[i])});s.setProperty("--secondary",t[1]);s.setProperty("--muted",t[1]);s.setProperty("--card-foreground",t[2]);s.setProperty("--primary-foreground",t[0]);s.setProperty("--ring",t[4])}
+        var f={clash:['"Clash Display", system-ui, sans-serif','"Satoshi", system-ui, sans-serif',"600","-0.025em"],syne:['"Syne", system-ui, sans-serif','"Plus Jakarta Sans", system-ui, sans-serif',"700","-0.03em"],cabinet:['"Cabinet Grotesk", system-ui, sans-serif','"General Sans", system-ui, sans-serif',"700","-0.03em"],instrument:['"Instrument Serif", Georgia, serif','"Inter", system-ui, sans-serif',"400","-0.02em"],space:['"Space Grotesk", system-ui, sans-serif','"DM Sans", system-ui, sans-serif',"700","-0.03em"]}[localStorage.getItem("rugcraft-font")];
+        if(f){s.setProperty("--font-display",f[0]);s.setProperty("--font-sans",f[1]);s.setProperty("--font-display-weight",f[2]);s.setProperty("--font-display-tracking",f[3])}
+      }catch(e){}
     </script>
   </head>
   <body>
-    <div id="root"><noscript><main style="padding:4rem;font-family:sans-serif;background:#120c08;color:#f5ead8"><h1>RugCraft Studio — Custom Handmade Tufted Rugs</h1><p>Your Team. Your Rug. Hand-tufted in Georgia, USA · Ships nationwide.</p><p><a href="mailto:rugcraftstudio8@gmail.com" style="color:#f08a3c">Email rugcraftstudio8@gmail.com</a> · <a href="https://x.com/RugCraftStudio" style="color:#f08a3c">X @RugCraftStudio</a></p></main></noscript></div>
+    <div id="root"><noscript><main style="padding:4rem;font-family:sans-serif;background:#120c08;color:#f5ead8"><h1>RugCraft Studio — Custom Handmade Tufted Rugs</h1><p>Hand-tufted in Georgia, USA · Ships nationwide.</p><p><a href="mailto:rugcraftstudio8@gmail.com" style="color:#f08a3c">Email rugcraftstudio8@gmail.com</a> · <a href="https://x.com/RugCraftStudio" style="color:#f08a3c">X @RugCraftStudio</a></p></main></noscript></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -91,7 +91,7 @@ export function Magnetic({ children, strength = 0.2 }: { children: ReactNode; st
 }
 
 export function Marquee({ items, className = "", speed = 40 }: { items: string[]; className?: string; speed?: number }) {
-  const row = items.map((t, i) => <span key={i} className="mx-8 inline-flex items-center gap-8">{t}<span className="text-primary">✦</span></span>);
+  const row = items.map((t, i) => <span key={i} className="mx-8 inline-flex items-center gap-8">{t}<span className="text-primary">·</span></span>);
   return (
     <div className={`marquee-wrap overflow-hidden whitespace-nowrap ${className}`} aria-hidden>
       <div className="marquee inline-flex" style={{ animationDuration: `${speed}s` }}>{row}{row}</div>
