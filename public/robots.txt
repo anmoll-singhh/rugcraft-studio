@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rugcraft-studio.vercel.app/sitemap.xml
