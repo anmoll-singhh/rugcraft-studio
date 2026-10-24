@@ -2,9 +2,9 @@
 @source "./";
 
 @theme inline {
-  --font-display: var(--font-display);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-display: "Big Shoulders Display", Impact, ui-sans-serif, sans-serif;
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -16,24 +16,21 @@
   --color-ring: var(--ring);
 }
 
-/* Atelier Obsidian default — 100% solid flat matte surfaces, zero gradients, high eye comfort */
+/* Monk's cloth paper + madder yarn. Flat solids only. Body face is Source Sans 3
+   (open counters, built for long reading). Headlines are Big Shoulders Display,
+   the condensed stadium poster face from the original preview — not a startup grotesque. */
 :root {
-  --font-display: "Cabinet Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-display-weight: 700;
-  --font-display-tracking: -0.02em;
-  --background: #0E0D0C;
-  --card: #161412;
-  --secondary: #161412;
-  --muted: #161412;
-  --foreground: #F4EFE6;
-  --card-foreground: #F4EFE6;
-  --muted-foreground: #A69E93;
-  --primary: #C85A32;
-  --primary-foreground: #F6F2EA;
-  --border: #282420;
-  --ring: #C85A32;
+  --background: #F4EFE6;
+  --card: #E8E0D2;
+  --secondary: #E8E0D2;
+  --muted: #E8E0D2;
+  --foreground: #1C1612;
+  --card-foreground: #1C1612;
+  --muted-foreground: #5C534A;
+  --primary: #8E2420;
+  --primary-foreground: #F7F3EC;
+  --border: #D5CBBA;
+  --ring: #8E2420;
   --ease-micro: cubic-bezier(.33, 1, .68, 1);
   --ease-enter: cubic-bezier(.25, 1, .5, 1);
   --ease-reveal: cubic-bezier(.16, 1, .3, 1);
@@ -51,21 +48,21 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-size: 16.5px;
-    line-height: 1.65;
-    letter-spacing: -0.003em;
+    font-size: 18px;
+    line-height: 1.7;
+    letter-spacing: 0.005em;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
-    transition: background-color .3s var(--ease-micro), color .3s var(--ease-micro);
   }
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    font-weight: var(--font-display-weight, 700);
-    letter-spacing: var(--font-display-tracking, -0.02em);
-    line-height: 1.06;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 0.92;
+    text-transform: uppercase;
     text-wrap: balance;
   }
-  em, .italic { font-style: italic; }
+  em, .italic { font-style: italic; text-transform: uppercase; }
   p { text-wrap: pretty; }
   :focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
   ::selection { background-color: var(--primary); color: var(--primary-foreground); }
@@ -75,11 +72,11 @@
   ::-webkit-scrollbar-thumb { background-color: var(--primary); }
 }
 
-@utility display-xl { font-size: clamp(2.8rem, 5.4vw + 0.6rem, 5.6rem); line-height: 1.02; letter-spacing: var(--font-display-tracking, -0.02em); }
-@utility display-lg { font-size: clamp(2.1rem, 3.6vw + 0.4rem, 3.8rem); line-height: 1.06; letter-spacing: var(--font-display-tracking, -0.02em); }
-@utility eyebrow { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; color: var(--color-primary); }
-@utility link-underline { text-decoration: underline; text-decoration-color: color-mix(in oklab, currentColor 30%, transparent); text-underline-offset: 0.25em; transition: color var(--dur-2) var(--ease-micro), text-decoration-color var(--dur-2) var(--ease-micro);
-  &:hover { color: var(--color-primary); text-decoration-color: currentColor; } }
+@utility display-xl { font-size: clamp(2.8rem, 5.4vw + 0.6rem, 5.6rem); line-height: 0.9; }
+@utility display-lg { font-size: clamp(2rem, 3.2vw + 0.5rem, 3.4rem); line-height: 0.92; }
+@utility eyebrow { font-family: var(--font-sans); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: var(--color-primary); }
+@utility link-underline { text-decoration: underline; text-decoration-color: color-mix(in oklab, currentColor 35%, transparent); text-underline-offset: 0.22em; transition: color var(--dur-2) var(--ease-micro);
+  &:hover { color: var(--color-primary); } }
 @utility no-scrollbar { scrollbar-width: none; &::-webkit-scrollbar { display: none; } }
 
 .btn-gold, .btn-outline {
@@ -88,12 +85,13 @@
   align-items: center;
   justify-content: center;
   gap: .55rem;
-  min-height: 46px;
-  padding: 0 1.5rem;
-  border-radius: 4px;
-  font-size: .78rem;
+  min-height: 48px;
+  padding: 0 1.35rem;
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: .04em;
+  letter-spacing: 0.01em;
   transition: background-color var(--dur-2) var(--ease-micro), color var(--dur-2) var(--ease-micro), border-color var(--dur-2) var(--ease-micro);
 }
 .btn-gold {
@@ -107,8 +105,8 @@
   border-color: var(--foreground);
 }
 .btn-outline {
-  border: 1px solid var(--border);
-  background-color: var(--card);
+  border: 1px solid var(--foreground);
+  background-color: transparent;
   color: var(--foreground);
 }
 .btn-outline:hover {
@@ -142,6 +140,5 @@
 }
 
 @media (max-width: 767px) {
-  .has-sticky-bar .fab-wa { display: none; }
-  .has-sticky-bar .theme-dock { bottom: 84px; }
+  body { font-size: 17px; }
 }

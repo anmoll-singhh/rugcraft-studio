@@ -10,14 +10,14 @@ const LINKS = [
   { label: "Contact", to: "/contact" },
 ];
 
-export function Logo() {
+export function Logo({ light }: { light?: boolean }) {
   return (
     <Link to="/" className="flex items-baseline gap-3 leading-none" aria-label="RugCraft Studio home">
-      <span className="font-display text-xl font-bold tracking-tight text-foreground md:text-2xl">
+      <span className={`font-display text-2xl tracking-tight md:text-3xl ${light ? "text-[#F4EFE6]" : "text-foreground"}`}>
         RugCraft Studio
       </span>
-      <span className="hidden font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted-foreground sm:inline-block">
-        Custom Handmade Rugs
+      <span className={`hidden text-sm sm:inline ${light ? "text-[#F4EFE6]/70" : "text-muted-foreground"}`}>
+        Custom handmade rugs
       </span>
     </Link>
   );
@@ -39,31 +39,25 @@ export function Header() {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
+  const overHero = loc.pathname === "/" && !scrolled && !open;
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 border-b transition-colors duration-200 ${
-        scrolled || open || loc.pathname !== "/"
-          ? "border-border bg-background"
-          : "border-white/15 bg-[#0E0D0C]/85"
+      className={`fixed inset-x-0 top-0 z-40 border-b ${
+        overHero ? "border-[#F4EFE6]/15 bg-[#16120E]/80" : "border-border bg-background"
       }`}
     >
-      <nav
-        className="mx-auto flex max-w-[92rem] items-center justify-between px-6 py-4 md:px-12"
-        aria-label="Main"
-      >
-        <Logo />
+      <nav className="mx-auto flex max-w-[96rem] items-center justify-between px-5 py-3 md:px-10" aria-label="Main">
+        <Logo light={overHero} />
 
-        {/* Desktop Nav Links */}
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-7 md:flex">
           {LINKS.map((l) => (
             <li key={l.to}>
               <NavLink
                 to={l.to}
                 end={l.to === "/"}
                 className={({ isActive }) =>
-                  `text-sm font-medium transition-colors hover:text-primary ${
-                    isActive ? "text-primary" : "text-foreground/85"
-                  }`
+                  `text-base hover:text-primary ${isActive ? "text-primary" : overHero ? "text-[#F4EFE6]" : "text-foreground"}`
                 }
               >
                 {l.label}
@@ -72,61 +66,43 @@ export function Header() {
           ))}
         </ul>
 
-        {/* Desktop CTA ONLY — hidden on mobile so mobile header is strictly Brand + Hamburger */}
-        <div className="hidden items-center gap-3 md:flex">
-          <Link to="/custom" className="btn-gold !min-h-[40px] !px-4 !text-xs">
-            Start a Commission →
+        <div className="hidden md:block">
+          <Link to="/custom" className="btn-gold !min-h-10 !px-4">
+            Start a commission
           </Link>
         </div>
 
-        {/* Mobile Hamburger Toggle ONLY */}
         <button
           type="button"
-          className="relative flex h-10 w-10 flex-col items-center justify-center gap-1.5 border border-border bg-card md:hidden"
+          className={`flex h-11 w-11 flex-col items-center justify-center gap-1.5 border md:hidden ${
+            overHero ? "border-[#F4EFE6]/30" : "border-border bg-card"
+          }`}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
         >
-          <span
-            className={`block h-px w-5 bg-foreground transition-transform duration-200 ${
-              open ? "translate-y-[3.5px] rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`block h-px w-5 bg-foreground transition-transform duration-200 ${
-              open ? "-translate-y-[3.5px] -rotate-45" : ""
-            }`}
-          />
+          <span className={`block h-px w-5 ${open ? "translate-y-[3.5px] rotate-45" : ""} ${overHero ? "bg-[#F4EFE6]" : "bg-foreground"}`} />
+          <span className={`block h-px w-5 ${open ? "-translate-y-[3.5px] -rotate-45" : ""} ${overHero ? "bg-[#F4EFE6]" : "bg-foreground"}`} />
         </button>
       </nav>
 
-      {/* Mobile Drawer */}
       {open && (
         <div className="menu-in h-[100dvh] overflow-y-auto border-t border-border bg-background md:hidden">
-          <ul className="flex flex-col px-6 pt-6">
+          <ul className="flex flex-col px-5 pt-4">
             {LINKS.map((l) => (
               <li key={l.to}>
-                <Link
-                  to={l.to}
-                  className="flex items-center justify-between border-b border-border py-4 font-display text-2xl tracking-tight text-foreground hover:text-primary"
-                >
-                  <span>{l.label}</span>
-                  <span className="font-mono text-xs text-primary">→</span>
+                <Link to={l.to} className="block border-b border-border py-4 font-display text-4xl text-foreground">
+                  {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="px-6 pt-8">
-            <Link to="/custom" className="btn-gold w-full">
-              Start a Commission →
-            </Link>
-            <p className="mt-6 font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
-              Georgia, USA · Hand-Tufted to Order ·{" "}
-              <a href={X_URL} target="_blank" rel="noopener noreferrer" className="text-primary underline">
-                @RugCraftStudio
-              </a>
-            </p>
-          </div>
+          <p className="px-5 pt-6 text-sm text-muted-foreground">
+            Georgia, USA · Hand-tufted to order ·{" "}
+            <a href={X_URL} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+              @RugCraftStudio
+            </a>
+          </p>
         </div>
       )}
     </header>

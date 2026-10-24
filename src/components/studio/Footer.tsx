@@ -3,7 +3,7 @@ import { CATEGORIES, EMAIL_ADDRESS, WA_GENERAL, X_HANDLE, X_URL, catSlug } from 
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-background pt-16 pb-12 text-foreground">
+    <footer className="border-t border-border bg-background pt-10 pb-8 text-foreground">
       <div className="mx-auto max-w-[92rem] px-6 md:px-12">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">

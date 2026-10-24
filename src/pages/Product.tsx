@@ -1,6 +1,5 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
 import {
   CARE,
   PRODUCTS,
@@ -112,7 +111,7 @@ function Accordion({ title, children, open = false }: { title: string; children:
     <details open={open} className="group border-t border-border py-4">
       <summary className="flex min-h-[38px] cursor-pointer list-none items-center justify-between font-mono text-xs font-medium uppercase tracking-[0.1em] hover:text-primary">
         {title}
-        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-open:rotate-180" />
+        <span className="text-base group-open:rotate-180" aria-hidden>▾</span>
       </summary>
       <div className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{children}</div>
     </details>

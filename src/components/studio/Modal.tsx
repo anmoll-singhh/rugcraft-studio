@@ -1,6 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
 import { lenis } from "./Motion";
 
 export function Modal({ open, onClose, children, label, wide = false }: { open: boolean; onClose: () => void; children: ReactNode; label: string; wide?: boolean }) {
@@ -20,7 +19,7 @@ export function Modal({ open, onClose, children, label, wide = false }: { open: 
           <div className="backdrop-in absolute inset-0 bg-black/75 backdrop-blur-sm" onClick={onClose} />
           <div role="dialog" aria-modal="true" aria-label={label} data-lenis-prevent ref={(el) => el?.focus()} tabIndex={-1}
             className={`modal-in relative max-h-[92vh] w-full overflow-y-auto border border-border bg-background outline-none ${wide ? "md:max-w-5xl" : "md:max-w-lg"}`}>
-            <button onClick={onClose} aria-label="Close" className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background/90 hover:border-primary hover:text-primary"><X className="h-5 w-5" /></button>
+            <button onClick={onClose} aria-label="Close" className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center border border-border bg-background text-xl leading-none hover:border-primary hover:text-primary">×</button>
             {children}
           </div>
         </div>

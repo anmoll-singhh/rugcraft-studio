@@ -2,7 +2,6 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Header } from "@/components/studio/Header";
 import { Footer } from "@/components/studio/Footer";
-import { FloatingWhatsApp, ThemeSwitcher } from "@/components/studio/Floating";
 import { Preloader } from "@/components/studio/Preloader";
 import { Cursor, SmoothScroll, ScrollTrigger, gsap, lenis } from "@/components/studio/Motion";
 import { prefersReduced } from "@/lib/store";
@@ -82,8 +81,6 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
-      <FloatingWhatsApp />
-      <ThemeSwitcher />
       <div ref={curtain} aria-hidden className="pointer-events-none fixed inset-0 z-[80] hidden items-center justify-center bg-primary">
         <span className="font-display text-4xl font-bold tracking-tight text-primary-foreground">RugCraft Studio</span>
       </div>

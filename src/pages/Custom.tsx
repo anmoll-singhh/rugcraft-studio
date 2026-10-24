@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Check, Copy } from "lucide-react";
 import {
   EMAIL_ADDRESS,
   IMAGES,
@@ -189,12 +188,9 @@ export default function Custom() {
                 }`}
               >
                 <div>
-                  <span className="block font-mono text-[0.6rem] uppercase tracking-[0.1em]">
-                    Step {s.num}
-                  </span>
-                  <span className="font-display text-base font-bold">{s.label}</span>
+                  <span className="block text-sm font-semibold">{s.label}</span>
                 </div>
-                {done && <Check className="h-4 w-4 text-primary" />}
+                {done && <span className="text-sm">Done</span>}
               </button>
             );
           })}
@@ -462,8 +458,7 @@ export default function Custom() {
                     Copy Spec & DM {X_HANDLE} on X
                   </a>
                   <button type="button" onClick={handleCopy} className="btn-outline">
-                    {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
-                    {copied ? "Copied to Clipboard" : "Copy Spec Text"}
+                    {copied ? "Copied" : "Copy spec text"}
                   </button>
                 </div>
               </div>

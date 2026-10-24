@@ -37,7 +37,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
 
   if (!show) return null;
   return (
-    <div ref={root} className="fixed inset-0 z-[90] flex items-center justify-center bg-[#120c08] text-[#f5ead8]" style={{ clipPath: "inset(0 0 0 0)" }} role="status" aria-label={`Tufting your floor ${n}%`}>
+    <div ref={root} className="fixed inset-0 z-[90] flex items-center justify-center bg-[#16120E] text-[#F4EFE6]" style={{ clipPath: "inset(0 0 0 0)" }} role="status" aria-label={`Tufting your floor ${n}%`}>
       <div className="pl-inner flex flex-col items-center px-6 text-center">
         <svg className="h-24 w-48" viewBox="0 0 200 80" aria-hidden>
           <path
@@ -50,7 +50,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
           <path
             d="M 10 40 Q 32 10, 55 40 T 100 40 T 145 40 T 190 40"
             fill="none"
-            stroke="#f08a3c"
+            stroke="#8E2420"
             strokeWidth="5"
             strokeLinecap="round"
             strokeDasharray="240"
@@ -58,10 +58,10 @@ export function Preloader({ onDone }: { onDone: () => void }) {
           />
         </svg>
         <p className="eyebrow mt-4">Tufting Your Floor · 2,000 RPM</p>
-        <p className="mt-2 font-display text-3xl tracking-wide text-[#f5ead8]">RugCraft Studio · Georgia, USA</p>
+        <p className="mt-2 font-display text-3xl tracking-wide text-[#F4EFE6]">RugCraft Studio · Georgia, USA</p>
       </div>
-      <span className="absolute bottom-6 right-8 font-display text-[clamp(4.5rem,14vw,11rem)] leading-none tabular-nums text-[#f08a3c]">{n}%</span>
-      <span className="absolute bottom-8 left-8 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-[#f5ead8]/60">Tap anywhere to skip</span>
+      <span className="absolute bottom-6 right-8 font-display text-[clamp(4.5rem,14vw,11rem)] leading-none tabular-nums text-[#E24B42]">{n}%</span>
+      <span className="absolute bottom-8 left-8 text-sm text-[#F4EFE6]/60">Tap anywhere to skip</span>
     </div>
   );
 }

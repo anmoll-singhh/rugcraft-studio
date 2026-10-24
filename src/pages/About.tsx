@@ -1,5 +1,4 @@
 import { useState, type MouseEvent } from "react";
-import { ChevronDown } from "lucide-react";
 import { IMAGES } from "@/lib/studio";
 import { useSeo } from "@/lib/seo";
 import { Btn } from "@/components/studio/Buttons";
@@ -233,7 +232,7 @@ export default function About() {
                 <details key={f.q} open={idx === 0} className="group border-t border-border py-4">
                   <summary className="flex cursor-pointer list-none items-center justify-between font-display text-lg font-bold hover:text-primary md:text-xl">
                     <span>{f.q}</span>
-                    <ChevronDown className="h-4 w-4 shrink-0 text-primary transition-transform duration-200 group-open:rotate-180" />
+                    <span className="text-primary group-open:rotate-180" aria-hidden>▾</span>
                   </summary>
                   <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
                 </details>
