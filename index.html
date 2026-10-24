@@ -20,7 +20,37 @@
     <meta name="twitter:image" content="https://rugcraft-studio.vercel.app/og.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:ital,wght@0,700;0,800;1,700;1,800&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:ital,wght@0,700;0,800;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,560;0,9..144,700;1,9..144,560&family=Instrument+Serif:ital@0;1&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+    <script>
+      try {
+        var s = document.documentElement.style;
+        var themes = {
+          cloth: ["#F4EFE6","#E8E0D2","#1C1612","#5C534A","#8E2420","#F7F3EC","#D5CBBA"],
+          espresso: ["#16120E","#221C17","#F4EFE6","#B5A898","#E24B42","#16120E","#3A322B"],
+          navy: ["#101820","#182430","#F3F1EA","#9AABBA","#E24B42","#F7F3EC","#2A3A4A"],
+          obsidian: ["#0E0D0C","#1A1816","#F4EFE6","#A69E93","#C85A32","#F7F3EC","#2C2824"],
+          forest: ["#101612","#1A2420","#F3F0E8","#9AADA2","#D4A24A","#16120E","#2A3830"]
+        }[localStorage.getItem("rugcraft-theme-v4")];
+        if (themes) {
+          ["--background","--card","--foreground","--muted-foreground","--primary","--primary-foreground","--border"].forEach(function (k, i) { s.setProperty(k, themes[i]); });
+          s.setProperty("--secondary", themes[1]);
+          s.setProperty("--muted", themes[1]);
+          s.setProperty("--card-foreground", themes[2]);
+          s.setProperty("--ring", themes[4]);
+        }
+        var fonts = {
+          shoulders: ['"Big Shoulders Display", Impact, sans-serif', '"Source Sans 3", sans-serif'],
+          fraunces: ['"Fraunces", Georgia, serif', '"Source Sans 3", sans-serif'],
+          instrument: ['"Instrument Serif", Georgia, serif', '"DM Sans", sans-serif'],
+          syne: ['"Syne", sans-serif', '"DM Sans", sans-serif']
+        }[localStorage.getItem("rugcraft-font-v4")];
+        if (fonts) {
+          s.setProperty("--font-display", fonts[0]);
+          s.setProperty("--font-sans", fonts[1]);
+          s.setProperty("--font-mono", fonts[1]);
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"><noscript><main style="padding:4rem;font-family:sans-serif;background:#F4EFE6;color:#1C1612"><h1>RugCraft Studio — Your Team. Your Rug.</h1><p>Hand-tufted in Georgia, USA · Ships nationwide.</p><p><a href="mailto:rugcraftstudio8@gmail.com" style="color:#8E2420">Email rugcraftstudio8@gmail.com</a> · <a href="https://x.com/RugCraftStudio" style="color:#8E2420">X @RugCraftStudio</a></p></main></noscript></div>

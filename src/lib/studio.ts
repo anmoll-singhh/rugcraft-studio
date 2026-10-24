@@ -451,3 +451,89 @@ export const CARE = [
   "Spot-clean spills immediately by blotting with a clean damp cloth and mild soap.",
   "Built for indoor floors in game rooms, offices, and bedrooms, or hang on the wall with D-rings.",
 ];
+
+export type Theme = {
+  id: string;
+  name: string;
+  bg: string;
+  surface: string;
+  text: string;
+  muted: string;
+  accent: string;
+  accentText: string;
+  border: string;
+};
+
+export const THEMES: Theme[] = [
+  { id: "cloth", name: "Monk's Cloth", bg: "#F4EFE6", surface: "#E8E0D2", text: "#1C1612", muted: "#5C534A", accent: "#8E2420", accentText: "#F7F3EC", border: "#D5CBBA" },
+  { id: "espresso", name: "Espresso Studio", bg: "#16120E", surface: "#221C17", text: "#F4EFE6", muted: "#B5A898", accent: "#E24B42", accentText: "#16120E", border: "#3A322B" },
+  { id: "navy", name: "Navy Locker", bg: "#101820", surface: "#182430", text: "#F3F1EA", muted: "#9AABBA", accent: "#E24B42", accentText: "#F7F3EC", border: "#2A3A4A" },
+  { id: "obsidian", name: "Atelier Ink", bg: "#0E0D0C", surface: "#1A1816", text: "#F4EFE6", muted: "#A69E93", accent: "#C85A32", accentText: "#F7F3EC", border: "#2C2824" },
+  { id: "forest", name: "Forest Wool", bg: "#101612", surface: "#1A2420", text: "#F3F0E8", muted: "#9AADA2", accent: "#D4A24A", accentText: "#16120E", border: "#2A3830" },
+];
+
+export const THEME_KEY = "rugcraft-theme-v4";
+
+export function applyTheme(t: Theme) {
+  const r = document.documentElement.style;
+  r.setProperty("--background", t.bg);
+  r.setProperty("--card", t.surface);
+  r.setProperty("--secondary", t.surface);
+  r.setProperty("--muted", t.surface);
+  r.setProperty("--foreground", t.text);
+  r.setProperty("--card-foreground", t.text);
+  r.setProperty("--muted-foreground", t.muted);
+  r.setProperty("--primary", t.accent);
+  r.setProperty("--primary-foreground", t.accentText);
+  r.setProperty("--border", t.border);
+  r.setProperty("--ring", t.accent);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", t.bg);
+}
+
+export type FontPairing = {
+  id: string;
+  name: string;
+  tag: string;
+  display: string;
+  sans: string;
+};
+
+export const FONT_PAIRINGS: FontPairing[] = [
+  {
+    id: "shoulders",
+    name: "Big Shoulders + Source Sans",
+    tag: "Stadium poster",
+    display: '"Big Shoulders Display", Impact, sans-serif',
+    sans: '"Source Sans 3", sans-serif',
+  },
+  {
+    id: "fraunces",
+    name: "Fraunces + Source Sans",
+    tag: "Textile editorial",
+    display: '"Fraunces", Georgia, serif',
+    sans: '"Source Sans 3", sans-serif',
+  },
+  {
+    id: "instrument",
+    name: "Instrument Serif + DM Sans",
+    tag: "Warm atelier",
+    display: '"Instrument Serif", Georgia, serif',
+    sans: '"DM Sans", sans-serif',
+  },
+  {
+    id: "syne",
+    name: "Syne + DM Sans",
+    tag: "Collector grotesque",
+    display: '"Syne", sans-serif',
+    sans: '"DM Sans", sans-serif',
+  },
+];
+
+export const FONT_KEY = "rugcraft-font-v4";
+
+export function applyFontPairing(f: FontPairing) {
+  const r = document.documentElement.style;
+  r.setProperty("--font-display", f.display);
+  r.setProperty("--font-sans", f.sans);
+  r.setProperty("--font-mono", f.sans);
+}

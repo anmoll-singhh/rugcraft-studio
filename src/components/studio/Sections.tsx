@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { CATEGORIES, HERO_SLIDES, IMAGES, PRODUCTS } from "@/lib/studio";
 import { prefersReduced } from "@/lib/store";
@@ -193,64 +193,169 @@ export function CustomRequestSection() {
   );
 }
 
+function wrapOffset(index: number, active: number, total: number) {
+  let d = index - active;
+  if (d > total / 2) d -= total;
+  if (d < -total / 2) d += total;
+  return d;
+}
+
 /**
- * 4. 100VH SHOWCASE GALLERY OF ALL 12 WORKS
- * Fits all 12 real rugs cleanly inside a single 100vh desktop screen (4x3 grid) with zero dead space.
+ * Abstract proof-wall. All 12 rugs stay in the frame: a fanned carousel you drag,
+ * plus a filmstrip so every piece is still one tap away. Fits in one screen.
  */
 export function ShowcaseGallery100vh({ standalone = false }: { standalone?: boolean }) {
-  const [cat, setCat] = useState<string>("All");
+  const [cat, setCat] = useState("All");
   const list = !standalone || cat === "All" ? PRODUCTS : PRODUCTS.filter((p) => p.category === cat);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [wide, setWide] = useState(true);
+  const drag = useRef({ x: 0, dx: 0, on: false });
+
+  useEffect(() => setActive(0), [cat, list.length]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => setWide(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  useEffect(() => {
+    if (paused || prefersReduced() || list.length < 2) return;
+    const id = setInterval(() => setActive((i) => (i + 1) % list.length), 4200);
+    return () => clearInterval(id);
+  }, [paused, list.length]);
+
+  const go = (dir: number) => setActive((i) => (i + dir + list.length) % list.length);
+
+  const onDown = (e: React.PointerEvent) => {
+    drag.current = { x: e.clientX, dx: 0, on: true };
+    setPaused(true);
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+  const onMove = (e: React.PointerEvent) => {
+    if (drag.current.on) drag.current.dx = e.clientX - drag.current.x;
+  };
+  const onUp = () => {
+    if (!drag.current.on) return;
+    if (drag.current.dx > 48) go(-1);
+    else if (drag.current.dx < -48) go(1);
+    drag.current.on = false;
+  };
+
+  const piece = list[Math.min(active, list.length - 1)];
+  if (!piece) return null;
 
   return (
     <section
       id="works-showcase"
-      className={`border-b border-border bg-background ${
-        standalone
-          ? "px-0 pb-6 pt-20 md:flex md:min-h-[100svh] md:flex-col md:pt-24"
-          : "md:flex md:h-[100svh] md:max-h-[920px] md:min-h-[640px] md:flex-col md:justify-between md:py-5"
-      }`}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      className="flex h-[100svh] min-h-[620px] flex-col overflow-hidden border-b border-border bg-background pt-16 md:pt-[4.25rem]"
     >
-      <div className={`mx-auto flex h-full w-full max-w-[96rem] flex-col px-5 md:px-10 ${standalone ? "" : "py-6 md:py-0"}`}>
-        <div className="mb-3 flex flex-col justify-between gap-2 md:flex-row md:items-end">
-          <div>
-            <p className="eyebrow">{list.length} hand-tufted builds</p>
-            <h2 className="font-display text-3xl md:text-4xl">{standalone ? "All the work" : "The showcase"}</h2>
-          </div>
-          {standalone ? (
-            <div className="flex flex-wrap gap-1.5">
+      <div className="mx-auto flex w-full max-w-[96rem] items-end justify-between gap-3 px-5 pb-2 md:px-10">
+        <div>
+          <p className="eyebrow">
+            {String(active + 1).padStart(2, "0")} / {String(list.length).padStart(2, "0")} · drag the wall
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl">{standalone ? "All the work" : "The showcase"}</h2>
+        </div>
+        <div className="flex items-center gap-2">
+          {standalone && (
+            <div className="mr-2 hidden flex-wrap gap-1 lg:flex">
               {["All", ...CATEGORIES].map((c) => (
                 <button
                   key={c}
                   type="button"
                   onClick={() => setCat(c)}
-                  className={`border px-3 py-1.5 text-sm ${cat === c ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary"}`}
+                  className={`border px-2.5 py-1 text-sm ${cat === c ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card"}`}
                 >
                   {c}
                 </button>
               ))}
             </div>
-          ) : (
-            <Link to="/works" className="text-base font-semibold text-primary underline underline-offset-4">
-              Open the full gallery
+          )}
+          <button type="button" onClick={() => go(-1)} aria-label="Previous rug" className="h-10 w-10 border border-border bg-card text-lg">←</button>
+          <button type="button" onClick={() => go(1)} aria-label="Next rug" className="h-10 w-10 border border-border bg-card text-lg">→</button>
+          {!standalone && (
+            <Link to="/works" className="hidden text-sm font-semibold text-primary underline underline-offset-4 sm:inline">
+              Full gallery
             </Link>
           )}
         </div>
+      </div>
 
-        <div className={`grid flex-1 grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-2.5 ${list.length >= 12 ? "md:grid-rows-3" : ""}`}>
-          {list.slice(0, 12).map((p) => (
-            <Link
-              key={p.slug}
-              to={`/rug/${p.slug}`}
-              className="group relative flex min-h-[148px] flex-col justify-end overflow-hidden border border-border bg-card md:min-h-0"
+      {standalone && (
+        <div className="flex gap-1.5 overflow-x-auto px-5 pb-2 lg:hidden">
+          {["All", ...CATEGORIES].map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setCat(c)}
+              className={`shrink-0 border px-2.5 py-1 text-sm ${cat === c ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card"}`}
             >
-              <img src={p.images[0]} alt={p.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-              <div className="relative z-10 bg-[#16120E]/92 px-2.5 py-2 text-[#F4EFE6]">
-                <p className="truncate font-display text-lg leading-none normal-case group-hover:text-[#E24B42] md:text-xl">{p.name}</p>
-                <p className="truncate text-xs text-[#F4EFE6]/70">{p.category}</p>
-              </div>
-            </Link>
+              {c}
+            </button>
           ))}
         </div>
+      )}
+
+      <div
+        className="relative min-h-0 flex-1 touch-pan-y"
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerCancel={onUp}
+      >
+        {list.map((item, i) => {
+          const offset = wrapOffset(i, active, list.length);
+          const abs = Math.abs(offset);
+          const hidden = wide ? abs > 4 : abs > 1;
+          return (
+            <div
+              key={item.slug}
+              className="absolute left-1/2 top-[48%] w-[min(70vw,340px)] origin-center border border-border bg-card shadow-xl transition-transform duration-500 ease-out md:w-[min(28vw,380px)]"
+              style={{
+                height: wide ? "88%" : "92%",
+                transform: `translate(-50%, -50%) translateX(${offset * (wide ? 17 : 22)}%) translateY(${offset * offset * (wide ? 6 : 0)}px) rotate(${offset * (wide ? 8 : 5)}deg) scale(${offset === 0 ? 1 : 0.84 - abs * 0.03})`,
+                zIndex: 30 - abs,
+                opacity: hidden ? 0 : 1,
+                pointerEvents: hidden ? "none" : "auto",
+              }}
+            >
+              {offset === 0 ? (
+                <Link to={`/rug/${item.slug}`} className="flex h-full flex-col">
+                  <img src={item.images[0]} alt={item.name} className="min-h-0 flex-1 object-cover" draggable={false} />
+                  <span className="block bg-[#16120E] px-3 py-2.5 text-left text-[#F4EFE6]">
+                    <span className="block truncate font-display text-2xl leading-none">{item.name}</span>
+                    <span className="mt-1 block text-sm text-[#F4EFE6]/70">{item.category}</span>
+                  </span>
+                </Link>
+              ) : (
+                <button type="button" aria-label={`Bring ${item.name} forward`} onClick={() => setActive(i)} className="h-full w-full">
+                  <img src={item.images[0]} alt="" className="h-full w-full object-cover" draggable={false} />
+                </button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="no-scrollbar flex gap-2 overflow-x-auto px-5 pb-4 pt-1 md:px-10">
+        {list.map((item, i) => (
+          <button
+            key={item.slug}
+            type="button"
+            onClick={() => setActive(i)}
+            aria-label={`Show ${item.name}`}
+            className={`h-14 w-12 shrink-0 overflow-hidden border bg-card ${i === active ? "border-primary" : "border-border opacity-70"}`}
+            style={{ transform: `rotate(${(i % 2 === 0 ? -4 : 4)}deg)` }}
+          >
+            <img src={item.images[0]} alt="" className="h-full w-full object-cover" />
+          </button>
+        ))}
       </div>
     </section>
   );
