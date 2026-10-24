@@ -6,6 +6,9 @@ export const INSTAGRAM_URL = "https://x.com/RugCraftStudio";
 
 export const IMAGES = {
   hero: "/rugs/hero-workshop.webp",
+  heroLounge: "/rugs/hero-slide-lounge.webp",
+  heroCarving: "/rugs/hero-slide-carving.webp",
+  heroCollector: "/rugs/hero-slide-collector.webp",
   patriotsDesk: "/rugs/patriots-desk.webp",
   patriotsStudio: "/rugs/patriots-studio.webp",
   patriotsVacuum: "/rugs/patriots-vacuum.webp",
@@ -34,6 +37,57 @@ export const IMAGES = {
   gamingController: "/rugs/gaming-controller.webp",
   macroCarved: "/rugs/macro-carved-pile.webp",
 };
+
+export const HERO_SLIDES = [
+  {
+    id: "workshop",
+    image: "/rugs/hero-workshop.webp",
+    eyebrow: "Georgia, USA · Ships Nationwide",
+    line1: "Your Team.",
+    line2: "Your",
+    accentWord: "Rug.",
+    tagline: "Walls Have Posters. Legends Walk On Art.",
+    lede: "One-of-a-kind hand-tufted rugs for game-day superfans and collectors. Designed with you, made by hand in Georgia, ready in about two weeks.",
+    captionTitle: "Georgia Tufting Workshop",
+    captionSub: "16mm Cut-Pile · Hand-Sheared 3D Bevels",
+  },
+  {
+    id: "lounge",
+    image: "/rugs/hero-slide-lounge.webp",
+    eyebrow: "Bespoke Collector Commissions",
+    line1: "Custom Built.",
+    line2: "Carved by",
+    accentWord: "Hand.",
+    tagline: "Heavyweight 4-Ply Yarn Locked in Commercial Latex.",
+    lede: "From die-cut stadium silhouettes to architectural lounge centerpieces—every stitch is tufted at 2,000 RPM and backed with non-slip felt.",
+    captionTitle: "Walnut & Leather Collector Lounge",
+    captionSub: "Die-Cut Starburst Silhouette · 4.5ft Build",
+  },
+  {
+    id: "carving",
+    image: "/rugs/hero-slide-carving.webp",
+    eyebrow: "Cut-Pile Precision · Zero Factory Fluff",
+    line1: "Sculpted Pile.",
+    line2: "Razor",
+    accentWord: "Edges.",
+    tagline: "Every Color Boundary Beveled With Electric Shears.",
+    lede: "Machine-printed mats look flat from five feet away. We hand-carve deep V-grooves between every color block so letters and crests stand in 3D relief.",
+    captionTitle: "Live Bench Carving in Georgia",
+    captionSub: "Hand-Beveled V-Grooves · 4-Ply Wool & Acrylic",
+  },
+  {
+    id: "collector",
+    image: "/rugs/hero-slide-collector.webp",
+    eyebrow: "Sports · Gaming · Streetwear · Mashups",
+    line1: "Dream It Up.",
+    line2: "We Tuft",
+    accentWord: "It.",
+    tagline: "From Your Sketch to 10,000 Loops of Yarn.",
+    lede: "Send us any team crest, multi-team city mashup, sneaker icon, or custom sketch. Projected at 1:1 scale on our vertical frame and shipped to your door.",
+    captionTitle: "Streetwear & Sneaker Studio",
+    captionSub: "4ft Medallion Centerpiece · Non-Slip Felt",
+  },
+];
 
 export const mailtoLink = (text: string, subject = "Custom Rug Commission — RugCraft Studio") =>
   `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
@@ -111,7 +165,7 @@ export const PRODUCTS: Product[] = [
     tag: "4 Studio Angles",
     short: "High-relief roaring Grizzly crest framed by deeply sculpted slab-serif CHICAGO BEARS lettering.",
     description:
-      "Built in electric tufting-orange, midnight navy, and warm wool cream. Look closely at the lettering: each block character is hand-beveled into the surrounding navy pile so it casts crisp architectural shadows across your floor.",
+      "Built in burnt sienna orange, midnight navy, and warm wool cream. Look closely at the lettering: each block character is hand-beveled into the surrounding navy pile so it casts crisp architectural shadows across your floor.",
     postQuote: "Chicago Bears custom handmade tufted medallion — sculpted with deep-channel lettering for the ultimate fan cave.",
     postUrl: "https://x.com/RugCraftStudio/status/2113408075311001885",
     postDate: "Oct 22, 2026",
@@ -330,7 +384,7 @@ export const PRODUCTS: Product[] = [
     images: ["/rugs/dolphins-tufting.webp", "/rugs/hero-workshop.webp"],
     short: "Electric coral-orange sunburst spikes and leaping dolphin silhouette, tufted at 2,000 RPM.",
     description:
-      "Photographed live on our vertical tufting frame in Georgia as electric orange yarn fills the sunburst rays. Lush, high-contrast, and built to brighten any setup.",
+      "Photographed live on our vertical tufting frame in Georgia as coral-orange yarn fills the sunburst rays. Lush, high-contrast, and built to brighten any setup.",
     postQuote: "Bring your team pride to life with a custom handmade Miami Dolphins rug for your game room or fan setup.",
     postUrl: "https://x.com/RugCraftStudio/status/2112646925824455147",
     postDate: "Oct 20, 2026",
@@ -350,7 +404,7 @@ export const PRODUCTS: Product[] = [
     category: "Gaming & Culture",
     images: ["/rugs/gaming-controller.webp", "/rugs/macro-carved-pile.webp"],
     tag: "Gaming Setup",
-    short: "Contoured controller silhouette in espresso navy, tufting orange, and wool cream with raised 3D buttons.",
+    short: "Contoured controller silhouette in deep navy, terracotta sienna, and wool cream with raised 3D buttons.",
     description:
       "Designed to sit right under your gaming chair or streaming desk. Raised cut-pile action buttons and D-pad give your feet tactile comfort during marathon sessions.",
     postQuote: "Sports, Gaming, and Unique Designs — Made to Order in Georgia, USA.",
@@ -400,20 +454,28 @@ export const CARE = [
 
 export type Theme = { id: string; name: string; bg: string; surface: string; text: string; muted: string; accent: string; border: string };
 export const THEMES: Theme[] = [
-  { id: "espresso", name: "Tufting Espresso", bg: "#120c08", surface: "#1b130e", text: "#f5ead8", muted: "#b5a48e", accent: "#f08a3c", border: "#2e2219" },
-  { id: "stadium", name: "Stadium Navy", bg: "#0c1424", surface: "#142038", text: "#f5ead8", muted: "#94a3b8", accent: "#f08a3c", border: "#233554" },
-  { id: "canvas", name: "Monk's Cloth Cream", bg: "#f5ead8", surface: "#ebe0cd", text: "#18100a", muted: "#6b5a4c", accent: "#d96318", border: "#d8c8b0" },
-  { id: "gridiron", name: "Lambeau Turf", bg: "#0b1d15", surface: "#122b20", text: "#f4efe4", muted: "#9bb3a6", accent: "#f59e0b", border: "#1f4233" },
-  { id: "flock", name: "Ravens Midnight", bg: "#130d1e", surface: "#1d152e", text: "#f3eef8", muted: "#a69bb8", accent: "#f59e0b", border: "#31244c" },
+  { id: "obsidian", name: "Atelier Obsidian", bg: "#0E0D0C", surface: "#161412", text: "#F4EFE6", muted: "#A69E93", accent: "#C85A32", border: "#282420" },
+  { id: "monkscloth", name: "Raw Monk's Cloth", bg: "#F6F2EA", surface: "#EDE6D8", text: "#141210", muted: "#635B52", accent: "#B84A24", border: "#D6CBB8" },
+  { id: "forest", name: "Forest Wool", bg: "#0F1713", surface: "#16221C", text: "#EFECE6", muted: "#98A89E", accent: "#D49B4B", border: "#24362D" },
+  { id: "navy", name: "Navy Locker", bg: "#0C1118", surface: "#131B26", text: "#F2F4F7", muted: "#94A0B2", accent: "#D95338", border: "#222E40" },
+  { id: "espresso", name: "Espresso Studio", bg: "#140E0B", surface: "#1E1612", text: "#F5EAD8", muted: "#B0A08E", accent: "#D87A32", border: "#30241D" },
 ];
-export const THEME_KEY = "rugcraft-theme";
+export const THEME_KEY = "rugcraft-theme-v3";
 
 export function applyTheme(t: Theme) {
   const r = document.documentElement.style;
   const set = (k: string, v: string) => r.setProperty(k, v);
-  set("--background", t.bg); set("--card", t.surface); set("--secondary", t.surface); set("--muted", t.surface);
-  set("--foreground", t.text); set("--card-foreground", t.text); set("--muted-foreground", t.muted);
-  set("--primary", t.accent); set("--primary-foreground", t.bg); set("--border", t.border); set("--ring", t.accent);
+  set("--background", t.bg);
+  set("--card", t.surface);
+  set("--secondary", t.surface);
+  set("--muted", t.surface);
+  set("--foreground", t.text);
+  set("--card-foreground", t.text);
+  set("--muted-foreground", t.muted);
+  set("--primary", t.accent);
+  set("--primary-foreground", "#F6F2EA");
+  set("--border", t.border);
+  set("--ring", t.accent);
   document.querySelector('meta[name="theme-color"]')?.setAttribute("content", t.bg);
 }
 
@@ -429,58 +491,58 @@ export type FontPairing = {
 
 export const FONT_PAIRINGS: FontPairing[] = [
   {
-    id: "clash",
-    name: "Clash Display + Satoshi",
-    tag: "Modern Studio (Default)",
-    display: '"Clash Display", system-ui, sans-serif',
-    sans: '"Satoshi", system-ui, sans-serif',
-    weight: "600",
-    tracking: "-0.025em",
-  },
-  {
-    id: "syne",
-    name: "Syne + Plus Jakarta Sans",
-    tag: "Vanguard Streetwear",
-    display: '"Syne", system-ui, sans-serif',
+    id: "cabinet",
+    name: "Cabinet Grotesk + Plus Jakarta Sans",
+    tag: "Architectural Craft (Default)",
+    display: '"Cabinet Grotesk", system-ui, sans-serif',
     sans: '"Plus Jakarta Sans", system-ui, sans-serif',
     weight: "700",
-    tracking: "-0.03em",
-  },
-  {
-    id: "cabinet",
-    name: "Cabinet Grotesk + General Sans",
-    tag: "Architectural Editorial",
-    display: '"Cabinet Grotesk", system-ui, sans-serif',
-    sans: '"General Sans", system-ui, sans-serif',
-    weight: "700",
-    tracking: "-0.03em",
-  },
-  {
-    id: "instrument",
-    name: "Instrument Serif + Inter",
-    tag: "Warm Luxury Atelier",
-    display: '"Instrument Serif", Georgia, serif',
-    sans: '"Inter", system-ui, sans-serif',
-    weight: "400",
     tracking: "-0.02em",
   },
   {
-    id: "space",
-    name: "Space Grotesk + DM Sans",
-    tag: "Technical Craft",
-    display: '"Space Grotesk", system-ui, sans-serif',
+    id: "fraunces",
+    name: "Fraunces + Plus Jakarta Sans",
+    tag: "Editorial Textile Serif",
+    display: '"Fraunces", Georgia, serif',
+    sans: '"Plus Jakarta Sans", system-ui, sans-serif',
+    weight: "600",
+    tracking: "-0.02em",
+  },
+  {
+    id: "general",
+    name: "General Sans + Inter",
+    tag: "Swiss Gallery Clean",
+    display: '"General Sans", system-ui, sans-serif',
+    sans: '"Inter", system-ui, sans-serif',
+    weight: "600",
+    tracking: "-0.02em",
+  },
+  {
+    id: "instrument",
+    name: "Instrument Serif + DM Sans",
+    tag: "Warm Luxury Atelier",
+    display: '"Instrument Serif", Georgia, serif',
     sans: '"DM Sans", system-ui, sans-serif',
+    weight: "400",
+    tracking: "-0.015em",
+  },
+  {
+    id: "syne",
+    name: "Syne + Inter",
+    tag: "Vanguard Collector",
+    display: '"Syne", system-ui, sans-serif',
+    sans: '"Inter", system-ui, sans-serif',
     weight: "700",
-    tracking: "-0.03em",
+    tracking: "-0.025em",
   },
 ];
 
-export const FONT_KEY = "rugcraft-font";
+export const FONT_KEY = "rugcraft-font-v3";
 
 export function applyFontPairing(f: FontPairing) {
   const r = document.documentElement.style;
   r.setProperty("--font-display", f.display);
   r.setProperty("--font-sans", f.sans);
-  r.setProperty("--font-display-weight", f.weight || "600");
-  r.setProperty("--font-display-tracking", f.tracking || "-0.025em");
+  r.setProperty("--font-display-weight", f.weight || "700");
+  r.setProperty("--font-display-tracking", f.tracking || "-0.02em");
 }

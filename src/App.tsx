@@ -11,7 +11,6 @@ import Shop from "@/pages/Shop";
 import ProductPage from "@/pages/Product";
 import Collection from "@/pages/Collection";
 import Custom from "@/pages/Custom";
-import Process from "@/pages/Process";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Wishlist from "@/pages/Wishlist";
@@ -28,9 +27,9 @@ function useCurtain() {
     const el = curtain.current!;
     const tl = gsap.timeline();
     tl.set(el, { display: "flex", clipPath: "inset(100% 0% 0% 0%)" })
-      .to(el, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power4.inOut" })
+      .to(el, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4, ease: "power4.inOut" })
       .call(() => setShown(location))
-      .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.55, ease: "power4.inOut", delay: 0.05 })
+      .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.45, ease: "power4.inOut", delay: 0.04 })
       .set(el, { display: "none" });
     return () => { tl.progress(1); };
   }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -71,12 +70,12 @@ export default function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/gallery" element={<Shop />} />
           <Route path="/custom" element={<Custom />} />
-          <Route path="/process" element={<Process />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/process" element={<About />} />
           <Route path="/rug/:slug" element={<ProductPage />} />
           <Route path="/works/:slug" element={<ProductPage />} />
           <Route path="/product/:slug" element={<ProductPage />} />
           <Route path="/collections/:category" element={<Collection />} />
-          <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="*" element={<NotFound />} />
@@ -86,7 +85,7 @@ export default function App() {
       <FloatingWhatsApp />
       <ThemeSwitcher />
       <div ref={curtain} aria-hidden className="pointer-events-none fixed inset-0 z-[80] hidden items-center justify-center bg-primary">
-        <span className="font-display text-5xl font-bold tracking-tight text-primary-foreground">RugCraft Studio</span>
+        <span className="font-display text-4xl font-bold tracking-tight text-primary-foreground">RugCraft Studio</span>
       </div>
     </>
   );

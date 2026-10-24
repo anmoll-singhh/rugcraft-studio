@@ -3,51 +3,109 @@ import { useSearchParams, Link } from "react-router-dom";
 import { Check, Copy } from "lucide-react";
 import {
   EMAIL_ADDRESS,
-  PRODUCTS,
-  RUG_BACKING_OPTIONS,
-  RUG_SIZE_OPTIONS,
+  IMAGES,
   X_HANDLE,
   X_URL,
   getProduct,
   mailtoLink,
 } from "@/lib/studio";
 import { useSeo } from "@/lib/seo";
-import { WhatsAppIcon, XLogoIcon } from "@/components/studio/WhatsAppIcon";
-import {
-  Icon3DBoxStage,
-  Icon3DSparkCube,
-  Icon3DTuftGun,
-  Icon3DYarnCone,
-} from "@/components/studio/Icons3D";
 
-const SHAPES = [
-  { id: "Die-Cut Logo Silhouette", desc: "Cut to the exact contour of your team crest, mascot, or icon" },
-  { id: "Classic Round Medallion", desc: "Circular stadium medallion framed by arched block typography" },
-  { id: "Oval / Entryway Runner", desc: "Balanced proportions ideal for doorways, desks, or setups" },
-  { id: "1-of-1 Multi-Team Mashup", desc: "Combine multiple teams, symbols, or city icons into one piece" },
+const SHAPE_CARDS = [
+  {
+    id: "Die-Cut Silhouette",
+    desc: "Cut to the exact jagged contour of your team logo, mascot, or character.",
+    img: IMAGES.patriotsDesk,
+    sample: "e.g., Patriots Flying Elvis, Brewers Mitt",
+  },
+  {
+    id: "Classic Round Medallion",
+    desc: "Circular stadium emblem framed by bold arched block typography.",
+    img: IMAGES.bearsFull,
+    sample: "e.g., Chicago Bears, Philly Eagles",
+  },
+  {
+    id: "Pro Oval Crest",
+    desc: "Balanced oval proportions built for entryways, desks, and fan caves.",
+    img: IMAGES.packersOval,
+    sample: "e.g., Green Bay 'G' Oval",
+  },
+  {
+    id: "Custom Mashup / Runner",
+    desc: "Fuse multiple teams, city icons, or 5ft+ oversized floor runners.",
+    img: IMAGES.nyMashup,
+    sample: "e.g., NY Giants × Yankees Mashup",
+  },
 ];
 
-const PILES = [
+const SIZE_CARDS = [
+  {
+    id: "Small · 2.5ft",
+    title: "Desk & Doorway Sidekick",
+    desc: "Ideal under a desk chair, in front of a doorway, or hung on the wall.",
+    quote: "Custom Quote",
+  },
+  {
+    id: "Medium · 3.5ft",
+    title: "Fan Cave Standard",
+    desc: "Our most popular size for bedrooms, gaming setups, and collector corners.",
+    quote: "Most Popular",
+  },
+  {
+    id: "Large · 4.5ft",
+    title: "Game Room Centerpiece",
+    desc: "Commanding footprint in front of a sofa, media console, or sneaker wall.",
+    quote: "Custom Quote",
+  },
+  {
+    id: "XL Trophy · 5.5ft+",
+    title: "Full Room Statement",
+    desc: "Oversized custom stadium crest or multi-team mashup built to anchor the room.",
+    quote: "XL Custom Spec",
+  },
+];
+
+const BACKING_CARDS = [
+  {
+    id: "Non-Slip Grey Felt Floor Backing",
+    desc: "Commercial synthetic latex lock with thick non-slip felt for hardwood, tile, or carpet.",
+  },
+  {
+    id: "Wall-Mount D-Rings + Felt Backing",
+    desc: "Includes heavy-duty brass D-rings stitched into the backing so you can hang it like 3D art.",
+  },
+];
+
+const PILE_OPTIONS = [
   "16mm Cut-Pile + 3D Razor Carve",
   "High-Low Sculpted Relief Pile",
 ];
 
+const STEPS = [
+  { num: 1, label: "Rug Shape" },
+  { num: 2, label: "Size & Backing" },
+  { num: 3, label: "Artwork & Colors" },
+  { num: 4, label: "Review & Send" },
+];
+
 export default function Custom() {
   useSeo({
-    title: "Custom Rug Commission Builder — RugCraft Studio",
+    title: "Custom Rug Commission Wizard — RugCraft Studio",
     description:
-      "Design your custom hand-tufted rug in 30 seconds. Choose your silhouette, size tier, backing, and concept—hand-tufted to order in Georgia, USA.",
+      "Configure your custom hand-tufted rug in 4 simple steps. Pick your shape, size tier, backing, and artwork—made to order in Georgia, USA.",
   });
 
   const [params] = useSearchParams();
   const baseProduct = getProduct(params.get("from") ?? undefined);
 
-  const [shape, setShape] = useState(SHAPES[0]!.id);
-  const [size, setSize] = useState<string>(params.get("size") || "4ft");
-  const [backing, setBacking] = useState<string>(params.get("backing") || "Non-Slip Felt");
-  const [pile, setPile] = useState(PILES[0]!);
+  const [step, setStep] = useState<number>(1);
+  const [shape, setShape] = useState(SHAPE_CARDS[0]!.id);
+  const [size, setSize] = useState<string>(params.get("size") || SIZE_CARDS[1]!.id);
+  const [backing, setBacking] = useState<string>(params.get("backing") || BACKING_CARDS[0]!.id);
+  const [pile, setPile] = useState(PILE_OPTIONS[0]!);
   const [idea, setIdea] = useState(baseProduct ? `Custom version of ${baseProduct.name}` : "");
   const [colors, setColors] = useState("");
+  const [refUrl, setRefUrl] = useState("");
   const [name, setName] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -60,18 +118,19 @@ export default function Custom() {
   const specLines = [
     `Hi RugCraft Studio,`,
     ``,
-    `I configured a custom rug commission on your website and would like a quote:`,
+    `I completed the 4-Step Commission Wizard on your website and would like a quote:`,
     ``,
-    `- Concept / Design: ${idea.trim() || "Custom Team / Logo / Gaming Build"}`,
-    baseProduct ? `- Inspired By: ${baseProduct.name} (${baseProduct.slug})` : null,
-    `- Silhouette Shape: ${shape}`,
-    `- Selected Size: ${size}`,
-    `- Backing Option: ${backing}`,
-    `- Pile & Carving: ${pile}`,
-    `- Preferred Yarn Colors: ${colors.trim() || "Authentic team / studio recommendation"}`,
-    name.trim() ? `- Name & Timeline: ${name.trim()}` : null,
+    `1. Shape: ${shape}`,
+    `2. Size Tier: ${size}`,
+    `3. Backing: ${backing}`,
+    `4. Pile & Carving: ${pile}`,
+    `5. Design / Concept: ${idea.trim() || "Custom Team / Logo / Gaming Build"}`,
+    baseProduct ? `6. Reference Drop: ${baseProduct.name}` : null,
+    `7. Preferred Yarn Colors: ${colors.trim() || "Authentic team / studio recommendation"}`,
+    refUrl.trim() ? `8. Reference Image Link: ${refUrl.trim()}` : null,
+    name.trim() ? `9. Name & Target Date: ${name.trim()}` : null,
     ``,
-    `Please let me know pricing and next steps for the mockup.`,
+    `Please let me know pricing and next steps for the 1:1 projector mockup.`,
   ].filter(Boolean);
 
   const specText = specLines.join("\n");
@@ -87,293 +146,382 @@ export default function Custom() {
   };
 
   return (
-    <section className="mx-auto max-w-[92rem] px-6 pb-24 pt-28 md:px-12 md:pt-36">
-      {/* Header */}
-      <div className="mb-12 flex flex-col justify-between gap-6 border-b border-border pb-10 lg:flex-row lg:items-end">
-        <div>
-          <div className="inline-flex items-center gap-3">
-            <Icon3DBoxStage className="h-10 w-10">
-              <Icon3DTuftGun className="h-5 w-5" />
-            </Icon3DBoxStage>
-            <span className="eyebrow">Interactive Commission Studio</span>
+    <section className="mx-auto max-w-[92rem] px-6 pb-20 pt-28 md:px-12 md:pt-32">
+      {/* Top Header & Step Progress Bar */}
+      <div className="border-b border-border pb-8">
+        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <div>
+            <p className="eyebrow">Step {step} of 4 · Commission Wizard</p>
+            <h1 className="display-lg mt-2">Build Your Custom Rug</h1>
           </div>
-          <h1 className="display-lg mt-4">
-            Design Your <em className="text-primary">Custom Rug.</em>
-          </h1>
-          <p className="mt-3 max-w-2xl text-muted-foreground">
-            Configure your silhouette, size tier, backing, and design concept below. Your live studio blueprint updates automatically so you can send it straight to our Georgia workshop via Email or X DM.
-          </p>
+          {baseProduct && (
+            <div className="flex items-center gap-3 border border-border bg-card p-2.5">
+              <img src={baseProduct.images[0]} alt={baseProduct.name} className="h-12 w-12 object-cover" />
+              <div>
+                <p className="font-mono text-[0.58rem] uppercase text-primary">Inspired By</p>
+                <p className="font-display text-sm font-bold">{baseProduct.name}</p>
+                <Link to={`/rug/${baseProduct.slug}`} className="font-mono text-[0.58rem] text-muted-foreground underline">
+                  View original drop
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
 
-        {baseProduct && (
-          <div className="flex items-center gap-3 rounded-2xl border border-primary/40 bg-card p-3">
-            <img
-              src={baseProduct.images[0]}
-              alt={baseProduct.name}
-              className="h-14 w-14 rounded-xl object-cover"
-            />
-            <div>
-              <p className="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-primary">
-                Customizing Template
-              </p>
-              <p className="font-display text-lg leading-tight">{baseProduct.name}</p>
-              <Link
-                to={`/rug/${baseProduct.slug}`}
-                className="font-mono text-[0.6rem] text-muted-foreground underline hover:text-primary"
-              >
-                Back to original drop
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-        {/* Left Builder Controls */}
-        <div className="space-y-8 lg:col-span-7">
-          {/* Quick Inspiration Selector */}
-          <div>
-            <label className="font-mono text-xs uppercase tracking-[0.14em] text-primary">
-              Optional · Start From a Studio Build or Scratch
-            </label>
-            <div className="mt-3 flex gap-2.5 overflow-x-auto pb-2 no-scrollbar">
+        {/* 4-Step Interactive Bar */}
+        <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4" role="tablist" aria-label="Commission steps">
+          {STEPS.map((s) => {
+            const active = step === s.num;
+            const done = step > s.num;
+            return (
               <button
+                key={s.num}
                 type="button"
-                onClick={() => setIdea("")}
-                className={`shrink-0 rounded-xl border px-3.5 py-2 font-mono text-xs transition-all ${
-                  idea === ""
+                role="tab"
+                aria-selected={active}
+                onClick={() => setStep(s.num)}
+                className={`flex items-center justify-between border px-4 py-3 text-left transition-colors ${
+                  active
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card hover:border-primary/50"
+                    : done
+                    ? "border-primary/50 bg-card text-foreground"
+                    : "border-border bg-card/50 text-muted-foreground hover:border-border"
                 }`}
               >
-                Blank Custom Concept
+                <div>
+                  <span className="block font-mono text-[0.6rem] uppercase tracking-[0.1em]">
+                    Step {s.num}
+                  </span>
+                  <span className="font-display text-base font-bold">{s.label}</span>
+                </div>
+                {done && <Check className="h-4 w-4 text-primary" />}
               </button>
-              {PRODUCTS.slice(0, 5).map((prod) => (
-                <button
-                  key={prod.slug}
-                  type="button"
-                  onClick={() => setIdea(`Custom version of ${prod.name}`)}
-                  className={`flex shrink-0 items-center gap-2 rounded-xl border px-3 py-1.5 text-xs transition-all ${
-                    idea.includes(prod.name)
-                      ? "border-primary bg-card text-primary"
-                      : "border-border bg-card/50 hover:border-primary/50"
-                  }`}
-                >
-                  <img src={prod.images[0]} alt="" className="h-6 w-6 rounded object-cover" />
-                  <span>{prod.name.split(" ").slice(0, 2).join(" ")}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+            );
+          })}
+        </div>
+      </div>
 
-          {/* Silhouette Shape */}
-          <div>
-            <label className="font-mono text-xs uppercase tracking-[0.14em] text-primary">
-              Choose Silhouette Shape
-            </label>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              {SHAPES.map((s) => (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => setShape(s.id)}
-                  className={`rounded-2xl border p-4 text-left transition-all ${
-                    shape === s.id
-                      ? "border-primary bg-card shadow-sm"
-                      : "border-border bg-card/40 hover:border-primary/50"
-                  }`}
-                >
-                  <p className="font-display text-xl leading-snug">{s.id}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{s.desc}</p>
-                </button>
-              ))}
-            </div>
-          </div>
+      {/* Main Wizard Body + Live Blueprint Sidebar */}
+      <div className="mt-10 grid gap-10 lg:grid-cols-12">
+        <div className="lg:col-span-8">
+          {/* STEP 1: SHAPE */}
+          {step === 1 && (
+            <div className="fade-in">
+              <h2 className="font-display text-2xl font-bold md:text-3xl">
+                Step 1: Choose Your Rug Shape
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Every rug is projected at 1:1 scale onto stretched monk’s cloth in Georgia, so we can cut any contour.
+              </p>
 
-          {/* Size Tier & Backing */}
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div>
-              <label className="font-mono text-xs uppercase tracking-[0.14em] text-primary">
-                Select Size Tier
-              </label>
-              <div className="mt-3 grid grid-cols-2 gap-2.5">
-                {RUG_SIZE_OPTIONS.map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => setSize(s)}
-                    className={`rounded-xl border py-3 text-center font-mono text-xs transition-all ${
-                      size === s
-                        ? "border-primary bg-primary font-semibold text-primary-foreground"
-                        : "border-border bg-card/50 hover:border-primary/50"
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {SHAPE_CARDS.map((c) => {
+                  const selected = shape === c.id;
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => setShape(c.id)}
+                      className={`group flex flex-col overflow-hidden border text-left transition-colors ${
+                        selected
+                          ? "border-primary bg-card"
+                          : "border-border bg-card/50 hover:border-primary/60"
+                      }`}
+                    >
+                      <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-background">
+                        <img
+                          src={c.img}
+                          alt={c.id}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        {selected && (
+                          <span className="absolute right-3 top-3 border border-primary bg-primary px-2.5 py-1 font-mono text-[0.6rem] font-bold uppercase text-primary-foreground">
+                            Selected
+                          </span>
+                        )}
+                      </div>
+                      <div className="p-5">
+                        <p className="font-display text-xl font-bold">{c.id}</p>
+                        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{c.desc}</p>
+                        <p className="mt-2 font-mono text-[0.62rem] text-primary">{c.sample}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-8 flex justify-end">
+                <button type="button" onClick={() => setStep(2)} className="btn-gold">
+                  Next: Size & Backing →
+                </button>
               </div>
             </div>
+          )}
 
-            <div>
-              <label className="font-mono text-xs uppercase tracking-[0.14em] text-primary">
-                Select Backing Option
-              </label>
-              <div className="mt-3 grid grid-cols-1 gap-2.5">
-                {RUG_BACKING_OPTIONS.map((b) => (
-                  <button
-                    key={b}
-                    type="button"
-                    onClick={() => setBacking(b)}
-                    className={`rounded-xl border px-4 py-2.5 text-left font-mono text-xs transition-all ${
-                      backing === b
-                        ? "border-primary bg-primary font-semibold text-primary-foreground"
-                        : "border-border bg-card/50 hover:border-primary/50"
-                    }`}
-                  >
-                    {b}
-                  </button>
-                ))}
+          {/* STEP 2: SIZE & BACKING */}
+          {step === 2 && (
+            <div className="fade-in">
+              <h2 className="font-display text-2xl font-bold md:text-3xl">
+                Step 2: Select Size Tier & Backing
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Pick the footprint that fits your room and choose how you want the back finished.
+              </p>
+
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {SIZE_CARDS.map((s) => {
+                  const selected = size === s.id;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => setSize(s.id)}
+                      className={`border p-5 text-left transition-colors ${
+                        selected
+                          ? "border-primary bg-card"
+                          : "border-border bg-card/50 hover:border-primary/60"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-display text-xl font-bold">{s.id}</span>
+                        <span className="border border-border bg-background px-2.5 py-0.5 font-mono text-[0.6rem] uppercase text-primary">
+                          {s.quote}
+                        </span>
+                      </div>
+                      <p className="mt-1 font-medium text-foreground">{s.title}</p>
+                      <p className="mt-1.5 text-xs text-muted-foreground">{s.desc}</p>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <h3 className="mt-8 font-display text-xl font-bold">Choose Backing Finish</h3>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {BACKING_CARDS.map((b) => {
+                  const selected = backing === b.id;
+                  return (
+                    <button
+                      key={b.id}
+                      type="button"
+                      onClick={() => setBacking(b.id)}
+                      className={`border p-4 text-left transition-colors ${
+                        selected
+                          ? "border-primary bg-card"
+                          : "border-border bg-card/50 hover:border-primary/60"
+                      }`}
+                    >
+                      <p className="font-display text-base font-bold">{b.id}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">{b.desc}</p>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-8 flex items-center justify-between">
+                <button type="button" onClick={() => setStep(1)} className="btn-outline">
+                  ← Back to Shape
+                </button>
+                <button type="button" onClick={() => setStep(3)} className="btn-gold">
+                  Next: Artwork & Colors →
+                </button>
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Pile & Carving */}
-          <div>
-            <label className="font-mono text-xs uppercase tracking-[0.14em] text-primary">
-              Pile & Carving Finish
-            </label>
-            <div className="mt-3 flex flex-wrap gap-3">
-              {PILES.map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => setPile(p)}
-                  className={`rounded-xl border px-4 py-2.5 font-mono text-xs transition-all ${
-                    pile === p
-                      ? "border-primary bg-primary font-semibold text-primary-foreground"
-                      : "border-border bg-card/50 hover:border-primary/50"
-                  }`}
-                >
-                  {p}
+          {/* STEP 3: ARTWORK & COLORS */}
+          {step === 3 && (
+            <div className="fade-in">
+              <h2 className="font-display text-2xl font-bold md:text-3xl">
+                Step 3: Artwork & Yarn Direction
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Tell us what team, logo, gaming icon, or custom concept you want us to project and tuft.
+              </p>
+
+              <div className="mt-6 space-y-5 border border-border bg-card p-6">
+                <div>
+                  <label htmlFor="wiz-idea" className="block font-mono text-xs uppercase tracking-[0.1em] text-primary">
+                    Your Rug Concept (Team, Mascot, Gaming Logo, Pet, or Mashup)
+                  </label>
+                  <textarea
+                    id="wiz-idea"
+                    rows={3}
+                    value={idea}
+                    onChange={(e) => setIdea(e.target.value)}
+                    placeholder="e.g., Custom Chicago Bears roaring logo, New England Patriots die-cut, or a 2-team mashup..."
+                    className="mt-2 w-full border border-border bg-background p-3.5 text-sm outline-none focus:border-primary"
+                  />
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="wiz-colors" className="block font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                      Preferred Yarn Colors
+                    </label>
+                    <input
+                      id="wiz-colors"
+                      type="text"
+                      value={colors}
+                      onChange={(e) => setColors(e.target.value)}
+                      placeholder="e.g., Authentic team colors or custom palette"
+                      className="mt-1.5 w-full border border-border bg-background px-3.5 py-3 text-sm outline-none focus:border-primary"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="wiz-name" className="block font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                      Your Name & Target Date (Optional)
+                    </label>
+                    <input
+                      id="wiz-name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g., Marcus · Need before Game Day"
+                      className="mt-1.5 w-full border border-border bg-background px-3.5 py-3 text-sm outline-none focus:border-primary"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="wiz-ref" className="block font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                    Reference Image Link (Optional — or attach image in email/DM)
+                  </label>
+                  <input
+                    id="wiz-ref"
+                    type="text"
+                    value={refUrl}
+                    onChange={(e) => setRefUrl(e.target.value)}
+                    placeholder="Paste a link to your logo/artwork or attach it when you email us"
+                    className="mt-1.5 w-full border border-border bg-background px-3.5 py-3 text-sm outline-none focus:border-primary"
+                  />
+                </div>
+
+                <div>
+                  <span className="block font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                    Pile & Carving Style
+                  </span>
+                  <div className="mt-2 flex flex-wrap gap-2.5">
+                    {PILE_OPTIONS.map((p) => (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => setPile(p)}
+                        className={`border px-4 py-2 font-mono text-xs transition-colors ${
+                          pile === p
+                            ? "border-primary bg-primary font-semibold text-primary-foreground"
+                            : "border-border bg-background hover:border-primary"
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 flex items-center justify-between">
+                <button type="button" onClick={() => setStep(2)} className="btn-outline">
+                  ← Back to Size
                 </button>
-              ))}
+                <button type="button" onClick={() => setStep(4)} className="btn-gold">
+                  Next: Review & Send →
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Concept Inputs */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="sm:col-span-2">
-              <label htmlFor="custom-idea" className="font-mono text-xs uppercase tracking-[0.14em] text-primary">
-                Your Rug Concept (Team, Gaming Logo, Pet, or Mashup)
-              </label>
-              <input
-                id="custom-idea"
-                type="text"
-                value={idea}
-                onChange={(e) => setIdea(e.target.value)}
-                placeholder="Describe your logo, team crest, jersey number, or custom artwork..."
-                className="mt-2 w-full rounded-xl border border-border bg-card px-4 py-3.5 text-sm outline-none focus:border-primary"
-              />
+          {/* STEP 4: REVIEW & SEND */}
+          {step === 4 && (
+            <div className="fade-in">
+              <h2 className="font-display text-2xl font-bold md:text-3xl">
+                Step 4: Review Your Commission Spec & Send
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Your custom rug specification is ready. Send it directly to our Georgia workshop via Email or X DM—we’ll reply with a quote and 1:1 mockup details.
+              </p>
+
+              <div className="mt-6 border border-border bg-card p-6">
+                <p className="font-mono text-xs uppercase tracking-[0.12em] text-primary">
+                  Generated Commission Message
+                </p>
+                <pre className="mt-3 overflow-x-auto whitespace-pre-wrap border border-border bg-background p-4 font-mono text-xs leading-relaxed text-foreground">
+                  {specText}
+                </pre>
+
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <a href={mailHref} className="btn-gold">
+                    Send Inquiry via Email ({EMAIL_ADDRESS}) →
+                  </a>
+                  <a
+                    href={X_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleCopy}
+                    className="btn-outline"
+                  >
+                    Copy Spec & DM {X_HANDLE} on X
+                  </a>
+                  <button type="button" onClick={handleCopy} className="btn-outline">
+                    {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
+                    {copied ? "Copied to Clipboard" : "Copy Spec Text"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-8 flex items-center justify-between">
+                <button type="button" onClick={() => setStep(3)} className="btn-outline">
+                  ← Edit Artwork Details
+                </button>
+              </div>
             </div>
-            <div>
-              <label htmlFor="custom-colors" className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-muted-foreground">
-                Preferred Yarn Colors
-              </label>
-              <input
-                id="custom-colors"
-                type="text"
-                value={colors}
-                onChange={(e) => setColors(e.target.value)}
-                placeholder="e.g., Navy, Tufting Orange & Cream"
-                className="mt-1.5 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
-              />
-            </div>
-            <div>
-              <label htmlFor="custom-name" className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-muted-foreground">
-                Your Name & Target Date (Optional)
-              </label>
-              <input
-                id="custom-name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g., Marcus · Before Game Day"
-                className="mt-1.5 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
-              />
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* Right Sticky Blueprint Ticket */}
-        <div className="lg:col-span-5">
-          <div className="sticky top-28 rounded-3xl border border-primary/50 bg-card p-6 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.65)] md:p-8">
-            <div className="flex items-center justify-between border-b border-border pb-4">
-              <div>
-                <p className="eyebrow">Live Studio Blueprint</p>
-                <h2 className="mt-1 font-display text-3xl">Commission Spec Sheet</h2>
-              </div>
-              <Icon3DBoxStage className="h-11 w-11">
-                <Icon3DYarnCone className="h-6 w-6" />
-              </Icon3DBoxStage>
+        {/* Right Sticky Summary Sidebar */}
+        <div className="lg:col-span-4">
+          <div className="sticky top-24 border border-border bg-card p-6">
+            <div className="border-b border-border pb-3.5">
+              <p className="eyebrow">Live Commission Summary</p>
+              <h3 className="mt-1 font-display text-2xl font-bold">Studio Ticket</h3>
             </div>
 
-            <dl className="mt-6 space-y-3.5 text-sm">
-              <div className="flex justify-between gap-4 border-b border-border/60 pb-2.5">
-                <dt className="font-mono text-xs uppercase text-muted-foreground">Concept</dt>
-                <dd className="text-right font-medium text-foreground">
-                  {idea.trim() || "Custom Fan / Logo Build"}
-                </dd>
+            <dl className="mt-5 space-y-3 text-sm">
+              <div className="flex justify-between gap-3 border-b border-border pb-2.5">
+                <dt className="font-mono text-xs uppercase text-muted-foreground">Shape</dt>
+                <dd className="text-right font-semibold text-primary">{shape}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-border/60 pb-2.5">
-                <dt className="font-mono text-xs uppercase text-muted-foreground">Silhouette</dt>
-                <dd className="text-right font-medium text-primary">{shape}</dd>
+              <div className="flex justify-between gap-3 border-b border-border pb-2.5">
+                <dt className="font-mono text-xs uppercase text-muted-foreground">Size</dt>
+                <dd className="text-right font-medium">{size}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-border/60 pb-2.5">
-                <dt className="font-mono text-xs uppercase text-muted-foreground">Size Tier</dt>
-                <dd className="text-right font-mono text-xs font-semibold">{size} · Custom Quote</dd>
-              </div>
-              <div className="flex justify-between gap-4 border-b border-border/60 pb-2.5">
+              <div className="flex justify-between gap-3 border-b border-border pb-2.5">
                 <dt className="font-mono text-xs uppercase text-muted-foreground">Backing</dt>
-                <dd className="text-right font-medium">{backing}</dd>
+                <dd className="text-right text-xs font-medium">{backing}</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-border/60 pb-2.5">
-                <dt className="font-mono text-xs uppercase text-muted-foreground">Pile & Edge</dt>
+              <div className="flex justify-between gap-3 border-b border-border pb-2.5">
+                <dt className="font-mono text-xs uppercase text-muted-foreground">Finish</dt>
                 <dd className="text-right text-xs">{pile}</dd>
               </div>
-              <div className="flex justify-between gap-4 pb-1">
-                <dt className="font-mono text-xs uppercase text-muted-foreground">Studio Origin</dt>
+              <div className="flex justify-between gap-3 border-b border-border pb-2.5">
+                <dt className="font-mono text-xs uppercase text-muted-foreground">Concept</dt>
+                <dd className="text-right text-xs text-foreground">
+                  {idea.trim() || "Custom Team / Logo Build"}
+                </dd>
+              </div>
+              <div className="flex justify-between gap-3 pb-1">
+                <dt className="font-mono text-xs uppercase text-muted-foreground">Workshop</dt>
                 <dd className="font-mono text-xs text-primary">Georgia, USA · ~2 Weeks</dd>
               </div>
             </dl>
 
-            <div className="mt-8 space-y-3">
-              <a href={mailHref} className="btn-gold w-full !min-h-[52px]">
-                <WhatsAppIcon className="h-4 w-4" /> Email Spec to {EMAIL_ADDRESS}
+            <div className="mt-6 space-y-2.5">
+              <a href={mailHref} className="btn-gold w-full">
+                Email Spec to Studio →
               </a>
-              <div className="grid grid-cols-2 gap-2.5">
-                <a
-                  href={X_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={handleCopy}
-                  className="btn-outline w-full !px-3 text-center"
-                >
-                  <XLogoIcon className="h-3.5 w-3.5" /> DM {X_HANDLE}
-                </a>
-                <button type="button" onClick={handleCopy} className="btn-outline w-full !px-3">
-                  {copied ? (
-                    <Check className="h-3.5 w-3.5 text-primary" />
-                  ) : (
-                    <Copy className="h-3.5 w-3.5" />
-                  )}
-                  {copied ? "Copied!" : "Copy Spec"}
-                </button>
-              </div>
+              <button type="button" onClick={handleCopy} className="btn-outline w-full">
+                {copied ? "Spec Copied!" : "Copy Spec for X DM"}
+              </button>
             </div>
-
-            <p className="mt-4 text-center font-mono text-[0.62rem] text-muted-foreground">
-              Have a reference photo or sketch? Attach it directly in your email or X DM.
-            </p>
           </div>
         </div>
       </div>

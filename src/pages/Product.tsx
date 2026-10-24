@@ -1,6 +1,6 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ChevronDown, Ruler, ZoomIn, ExternalLink } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   CARE,
   PRODUCTS,
@@ -12,10 +12,8 @@ import {
 } from "@/lib/studio";
 import { pushRecent, useRecent } from "@/lib/store";
 import { useSeo } from "@/lib/seo";
-import { WhatsAppIcon, XLogoIcon } from "@/components/studio/WhatsAppIcon";
-import { ProductCard, WishButton } from "@/components/studio/ProductCard";
+import { ProductCard } from "@/components/studio/ProductCard";
 import { SizeGuide } from "@/components/studio/Modal";
-import { Icon3DSparkCube, Icon3DYarnCone } from "@/components/studio/Icons3D";
 import NotFound from "./NotFound";
 
 function Gallery({ images, name }: { images: string[]; name: string }) {
@@ -38,14 +36,13 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <div
-        className={`relative aspect-[4/4.3] w-full overflow-hidden rounded-3xl border border-border bg-card shadow-[0_24px_60px_-15px_rgba(0,0,0,0.6)] ${
+        className={`relative aspect-[4/4.2] w-full overflow-hidden border border-border bg-card ${
           loupeEnabled ? "cursor-zoom-in" : "cursor-default"
         }`}
         onMouseMove={move}
         onMouseLeave={() => setZoom(null)}
-        data-cursor={loupeEnabled ? "2.2x Loupe" : undefined}
       >
         <img
           key={i}
@@ -60,9 +57,8 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
           }
         />
 
-        {/* Top Bar Inside Gallery */}
-        <div className=" absolute inset-x-4 top-4 flex items-center justify-between">
-          <span className="rounded-lg border border-border/80 bg-background/90 px-3 py-1.5 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-foreground backdrop-blur">
+        <div className="absolute inset-x-4 top-4 flex items-center justify-between">
+          <span className="border border-border bg-background px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-foreground">
             Angle {i + 1} of {images.length}
           </span>
           <button
@@ -72,29 +68,19 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
               setZoom(null);
             }}
             aria-pressed={loupeEnabled}
-            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 font-mono text-[0.62rem] uppercase tracking-[0.12em] backdrop-blur transition-colors ${
+            className={`border px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] transition-colors ${
               loupeEnabled
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-background/90 text-foreground hover:border-primary"
+                ? "border-primary bg-primary font-semibold text-primary-foreground"
+                : "border-border bg-background text-foreground hover:border-primary"
             }`}
           >
-            <ZoomIn className="h-3.5 w-3.5" />
             {loupeEnabled ? "Loupe Active (2.2x)" : "Enable Loupe"}
           </button>
         </div>
-
-        <span className="pointer-events-none absolute bottom-4 left-4 hidden rounded-lg border border-border/80 bg-background/90 px-3 py-1.5 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-muted-foreground backdrop-blur md:block">
-          {loupeEnabled
-            ? zoom
-              ? "Inspecting carved yarn pile"
-              : "Hover image to magnify 3D pile"
-            : "Click 'Enable Loupe' to magnify pile"}
-        </span>
       </div>
 
-      {/* Multi-angle selector strip */}
       {images.length > 1 && (
-        <div className="grid grid-cols-4 gap-3" role="tablist" aria-label="Rug studio angles">
+        <div className="grid grid-cols-4 gap-2.5" role="tablist" aria-label="Rug studio angles">
           {images.map((src, k) => (
             <button
               key={k}
@@ -103,14 +89,14 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
               aria-selected={i === k}
               aria-label={`Show studio angle ${k + 1}`}
               onClick={() => setI(k)}
-              className={`group relative aspect-[4/3.6] overflow-hidden rounded-2xl border transition-all ${
+              className={`relative aspect-[4/3.4] overflow-hidden border transition-opacity ${
                 i === k
-                  ? "border-primary ring-2 ring-primary/30"
-                  : "border-border opacity-65 hover:opacity-100"
+                  ? "border-primary opacity-100"
+                  : "border-border opacity-60 hover:opacity-100"
               }`}
             >
               <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
-              <span className="absolute bottom-1.5 right-1.5 rounded bg-black/75 px-1.5 py-0.5 font-mono text-[0.55rem] text-[#f5ead8]">
+              <span className="absolute bottom-1 right-1 bg-[#0E0D0C] px-1.5 py-0.5 font-mono text-[0.55rem] text-[#F4EFE6]">
                 View {k + 1}
               </span>
             </button>
@@ -124,11 +110,11 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
 function Accordion({ title, children, open = false }: { title: string; children: React.ReactNode; open?: boolean }) {
   return (
     <details open={open} className="group border-t border-border py-4">
-      <summary className="flex min-h-[40px] cursor-pointer list-none items-center justify-between font-mono text-[0.7rem] font-medium uppercase tracking-[0.12em] hover:text-primary">
+      <summary className="flex min-h-[38px] cursor-pointer list-none items-center justify-between font-mono text-xs font-medium uppercase tracking-[0.1em] hover:text-primary">
         {title}
-        <ChevronDown className="h-4 w-4 transition-transform duration-300 group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-open:rotate-180" />
       </summary>
-      <div className="mt-3 text-sm leading-relaxed text-muted-foreground">{children}</div>
+      <div className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{children}</div>
     </details>
   );
 }
@@ -178,8 +164,8 @@ export default function ProductPage() {
 
   return (
     <>
-      <section className="mx-auto max-w-[92rem] px-6 pb-20 pt-28 md:px-12 md:pt-36">
-        <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.12em] text-muted-foreground">
+      <section className="mx-auto max-w-[92rem] px-6 pb-20 pt-28 md:px-12 md:pt-32">
+        <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
           <Link to="/" className="hover:text-primary">Home</Link>
           <span>/</span>
           <Link to="/works" className="hover:text-primary">Works</Link>
@@ -189,51 +175,35 @@ export default function ProductPage() {
           <span className="text-foreground">{p.name}</span>
         </nav>
 
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
-          {/* Left Sticky Multi-Angle Gallery */}
-          <div className="lg:sticky lg:top-28 lg:col-span-7 lg:self-start">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:sticky lg:top-24 lg:col-span-7 lg:self-start">
             <Gallery images={p.images} name={p.name} />
           </div>
 
-          {/* Right Collectible Spec & Order Column */}
           <div className="lg:col-span-5">
-            <div className="flex items-center justify-between gap-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-card px-3.5 py-1">
-                <Icon3DYarnCone className="h-4 w-4" />
-                <span className="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-primary">
-                  {p.category}
-                </span>
-              </div>
-              <WishButton slug={p.slug} className="border border-border" />
-            </div>
-
-            <h1 className="mt-4 font-display text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.02]">
+            <p className="eyebrow">{p.category} · {p.sizeSpec}</p>
+            <h1 className="mt-2 font-display text-3xl font-bold leading-tight md:text-4xl">
               {p.name}
             </h1>
 
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <span className="rounded-lg border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-xs font-medium text-primary">
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <span className="border border-primary bg-card px-3 py-1 font-mono text-xs font-semibold text-primary">
                 {p.priceLabel}
               </span>
               <span className="font-mono text-xs text-muted-foreground">
-                Original Studio Build: {p.sizeSpec}
+                Made to Order in Georgia, USA
               </span>
             </div>
 
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-5 text-base leading-relaxed text-muted-foreground">
               {p.description}
             </p>
 
-            {/* Real X Post Quote Card */}
             {p.postQuote && (
-              <div className="mt-6 rounded-2xl border border-border bg-card/80 p-4">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="inline-flex items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-primary">
-                    <XLogoIcon className="h-3 w-3" /> @RugCraftStudio Archive
-                  </span>
-                  {p.postDate && (
-                    <span className="font-mono text-[0.6rem] text-muted-foreground">{p.postDate}</span>
-                  )}
+              <div className="mt-6 border border-border bg-card p-4">
+                <div className="flex items-center justify-between font-mono text-[0.62rem] uppercase tracking-[0.1em] text-primary">
+                  <span>@RugCraftStudio Archive</span>
+                  {p.postDate && <span className="text-muted-foreground">{p.postDate}</span>}
                 </div>
                 <p className="mt-2 text-xs leading-relaxed text-foreground/90">
                   “{p.postQuote}”
@@ -243,39 +213,38 @@ export default function ProductPage() {
                     href={p.postUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2.5 inline-flex items-center gap-1 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-primary hover:underline"
+                    className="mt-2 inline-block font-mono text-[0.6rem] uppercase tracking-[0.1em] text-primary underline"
                   >
-                    View Original Post on X <ExternalLink className="h-3 w-3" />
+                    View Original Post on X →
                   </a>
                 )}
               </div>
             )}
 
-            {/* Size Selector */}
-            <fieldset className="mt-7">
+            <fieldset className="mt-6">
               <div className="flex items-center justify-between">
-                <legend className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.12em] text-foreground">
+                <legend className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-foreground">
                   Select Size — <span className="text-primary">{size}</span>
                 </legend>
                 <button
                   type="button"
                   onClick={() => setGuide(true)}
-                  className="inline-flex items-center gap-1.5 font-mono text-[0.64rem] text-muted-foreground underline underline-offset-4 hover:text-primary"
+                  className="font-mono text-xs text-muted-foreground underline hover:text-primary"
                 >
-                  <Ruler className="h-3.5 w-3.5" /> Size Guide
+                  Size Guide
                 </button>
               </div>
-              <div className="mt-2.5 grid grid-cols-4 gap-2">
+              <div className="mt-2 grid grid-cols-4 gap-2">
                 {RUG_SIZE_OPTIONS.map((opt) => (
                   <button
                     key={opt}
                     type="button"
                     aria-pressed={size === opt}
                     onClick={() => setSize(opt)}
-                    className={`rounded-xl border py-2.5 text-center font-mono text-xs transition-all ${
+                    className={`border py-2.5 text-center font-mono text-xs transition-colors ${
                       size === opt
                         ? "border-primary bg-primary font-semibold text-primary-foreground"
-                        : "border-border bg-card/60 hover:border-primary/60"
+                        : "border-border bg-card hover:border-primary"
                     }`}
                   >
                     {opt}
@@ -284,22 +253,21 @@ export default function ProductPage() {
               </div>
             </fieldset>
 
-            {/* Backing Selector */}
             <fieldset className="mt-5">
-              <legend className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.12em] text-foreground">
+              <legend className="font-mono text-xs font-medium uppercase tracking-[0.1em] text-foreground">
                 Backing Option — <span className="text-primary">{backing}</span>
               </legend>
-              <div className="mt-2.5 grid grid-cols-2 gap-2.5">
+              <div className="mt-2 grid grid-cols-2 gap-2">
                 {RUG_BACKING_OPTIONS.map((opt) => (
                   <button
                     key={opt}
                     type="button"
                     aria-pressed={backing === opt}
                     onClick={() => setBacking(opt)}
-                    className={`rounded-xl border px-3.5 py-3 text-left font-mono text-xs transition-all ${
+                    className={`border px-3 py-2.5 text-left font-mono text-xs transition-colors ${
                       backing === opt
                         ? "border-primary bg-primary font-semibold text-primary-foreground"
-                        : "border-border bg-card/60 hover:border-primary/60"
+                        : "border-border bg-card hover:border-primary"
                     }`}
                   >
                     {opt}
@@ -308,22 +276,20 @@ export default function ProductPage() {
               </div>
             </fieldset>
 
-            {/* Primary & Secondary Action CTAs */}
-            <div className="mt-7 flex flex-col gap-3">
-              <a href={orderHref} className="btn-gold w-full !min-h-[54px] !text-xs">
-                <WhatsAppIcon className="h-4 w-4" /> Order This Exact Rug ({size} · {backing})
+            <div className="mt-6 flex flex-col gap-2.5">
+              <a href={orderHref} className="btn-gold w-full !min-h-[50px]">
+                Order This Exact Rug ({size} · {backing}) →
               </a>
-              <Link to={customizeHref} className="btn-outline w-full !min-h-[50px] !text-xs">
-                <Icon3DSparkCube className="h-4 w-4 text-primary" /> Customize This Design
+              <Link to={customizeHref} className="btn-outline w-full !min-h-[46px]">
+                Customize This Design in Wizard
               </Link>
             </div>
 
-            {/* Tactile Specs Table */}
-            <div className="mt-8 rounded-2xl border border-border bg-card/60 p-5">
-              <p className="font-mono text-[0.64rem] uppercase tracking-[0.14em] text-primary">
-                Tactile Studio Specifications
+            <div className="mt-7 border border-border bg-card p-5">
+              <p className="font-mono text-xs uppercase tracking-[0.12em] text-primary">
+                Studio Specifications
               </p>
-              <dl className="mt-3.5 grid grid-cols-2 gap-4 border-t border-border/70 pt-3.5 text-xs">
+              <dl className="mt-3 grid grid-cols-2 gap-4 border-t border-border pt-3 text-xs">
                 <div>
                   <dt className="font-mono text-[0.6rem] uppercase text-muted-foreground">Yarn Weight</dt>
                   <dd className="mt-1 font-medium text-foreground">{p.specs.yarnWeight}</dd>
@@ -359,21 +325,18 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {/* Related Rugs */}
-      <section className="border-t border-border bg-card/50 py-16 md:py-24">
+      <section className="border-t border-border bg-card py-14 md:py-20">
         <div className="mx-auto max-w-[92rem] px-6 md:px-12">
-          <div className="mb-10 flex items-end justify-between">
+          <div className="mb-8 flex items-end justify-between">
             <div>
               <p className="eyebrow">More From The Workshop</p>
-              <h2 className="display-lg mt-2">
-                Related <em className="text-primary">Studio Builds</em>
-              </h2>
+              <h2 className="display-lg mt-1">Related Studio Builds</h2>
             </div>
-            <Link to="/works" className="link-underline font-mono text-xs uppercase tracking-[0.12em]">
+            <Link to="/works" className="link-underline font-mono text-xs uppercase tracking-[0.1em]">
               All Works →
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((r) => (
               <ProductCard key={r.slug} p={r} />
             ))}
@@ -382,9 +345,9 @@ export default function ProductPage() {
       </section>
 
       {recentItems.length > 0 && (
-        <section className="mx-auto max-w-[92rem] px-6 py-16 md:px-12">
+        <section className="mx-auto max-w-[92rem] px-6 py-14 md:px-12">
           <p className="eyebrow mb-6">Recently Inspected</p>
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {recentItems.map((r) => (
               <ProductCard key={r.slug} p={r} />
             ))}
@@ -392,18 +355,17 @@ export default function ProductPage() {
         </section>
       )}
 
-      {/* Mobile Sticky Order Bar */}
       <div
-        className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-border bg-background/95 px-4 py-3 backdrop-blur md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-border bg-background px-4 py-3 md:hidden"
         style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
       >
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-base leading-tight">{p.name}</p>
+          <p className="truncate font-display text-base font-bold leading-tight">{p.name}</p>
           <p className="font-mono text-[0.62rem] text-primary">
             {size} · {backing}
           </p>
         </div>
-        <a href={orderHref} className="btn-gold !min-h-[42px] !px-4 !text-[0.68rem]">
+        <a href={orderHref} className="btn-gold !min-h-[40px] !px-4 !text-xs">
           Order Rug
         </a>
       </div>

@@ -1,9 +1,9 @@
 import {
   Hero,
   CarouselSection,
-  CuratedBento,
-  HowCommissionsWork,
-  CleanCtaBanner,
+  CustomRequestSection,
+  ShowcaseGallery100vh,
+  AboutUsCtaSection,
 } from "@/components/studio/Sections";
 import { useSeo } from "@/lib/seo";
 
@@ -17,9 +17,9 @@ export default function Home() {
     <>
       <Hero />
       <CarouselSection />
-      <CuratedBento />
-      <HowCommissionsWork />
-      <CleanCtaBanner />
+      <CustomRequestSection />
+      <ShowcaseGallery100vh />
+      <AboutUsCtaSection />
     </>
   );
 }
